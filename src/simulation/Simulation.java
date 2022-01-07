@@ -17,29 +17,17 @@ public class Simulation
 		logger.setLevel(Level.ALL);
 		logger.info("Booting..");
 
-		//Setup Map
-		int[][] testValues = {
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		};
-		Map2D testMap = new Map2D(testValues);
-		testMap.setValues(testValues);
+		String mapPath = "res/test_map.csv";
 
 		RenderController rc = new RenderController();
 
-		EnvironmentController envController = new EnvironmentController(testMap);
+		EnvironmentController envController = new EnvironmentController();
+		envController.loadMapFromCSVFile(mapPath);
+
 		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController, 50);
 		rc.addRenderer(envRenderer);
 
-		StatsContainer sc = new StatsContainer("0.09", "testMap");
+		StatsContainer sc = new StatsContainer("0.09", mapPath);
 		StatsRenderer sr = new StatsRenderer(sc);
 		rc.addRenderer(sr);
 

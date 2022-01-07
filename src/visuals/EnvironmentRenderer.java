@@ -22,12 +22,9 @@ public class EnvironmentRenderer implements Renderer{
     }
 
     public Frame createMapMatchingFrame(){
-        System.out.println(envController.getMap());
         if(envController.getMap() != null){
             int sizeX = envController.getMap().getSizeX()+1;
             int sizeY = envController.getMap().getSizeY()+1;
-
-            System.out.println(sizeX + " " + sizeY);
 
             return new Frame(sizeX*blockSize, sizeY*blockSize);
         }else{
@@ -49,6 +46,10 @@ public class EnvironmentRenderer implements Renderer{
                 //TODO blockTypes improvement
                 if(blockType == 1){
                     g.setColor(Color.BLACK);
+                }else if(blockType == 2){
+                    g.setColor(Color.orange);
+                }else if(blockType == 3){
+                    g.setColor(Color.BLUE);
                 }else{
                     g.setColor(Color.white);
                 }
