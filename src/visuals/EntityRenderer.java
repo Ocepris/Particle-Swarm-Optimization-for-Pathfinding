@@ -25,18 +25,12 @@ public class EntityRenderer implements Renderer{
         if(entities == null || entities.size() == 0)
             return;
 
+        g.setColor(Color.BLUE);
         for (Entity entity:entities) {
-            Vector2D pos = entity.getPosition();
-            drawCenteredCircle(g, (int) pos.getX(), (int) pos.getY(), 10);
+            entity.draw(g);
         }
 
 
-    }
-
-    public void drawCenteredCircle(Graphics g, int x, int y, int r) {
-        x = x-(r/2);
-        y = y-(r/2);
-        g.fillOval(x,y,r,r);
     }
 
 }

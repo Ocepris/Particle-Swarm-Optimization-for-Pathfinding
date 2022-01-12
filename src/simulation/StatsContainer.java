@@ -11,7 +11,7 @@ public class StatsContainer {
         stats = new HashMap<>();
         stats.put("version", version);
         stats.put("map_name", mapName);
-        stats.put("tick", "0");
+        stats.put("iteration", "0");
     }
 
     public void setValue(String key, String value){

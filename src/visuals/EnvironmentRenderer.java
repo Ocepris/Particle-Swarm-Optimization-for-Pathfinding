@@ -25,7 +25,7 @@ public class EnvironmentRenderer implements Renderer{
             int sizeX = envController.getMap().getSizeX()+1;
             int sizeY = envController.getMap().getSizeY()+1;
 
-            return new Frame(sizeX*blockSize, sizeY*blockSize);
+            return new Frame((sizeX*blockSize)+ 250, (sizeY*blockSize) + 20);
         }else{
             logger.warning("Can't create Frame without a valid map!");
             return null;
@@ -57,10 +57,6 @@ public class EnvironmentRenderer implements Renderer{
                 g.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
                 g.setColor(Color.GRAY);
                 g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
-
-                //test
-                g.setColor(Color.RED);
-                drawCenteredCircle(g, 272, 235, 10);
             }
         }
     }

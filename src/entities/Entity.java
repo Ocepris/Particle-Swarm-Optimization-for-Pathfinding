@@ -3,6 +3,8 @@ package entities;
 import math.Vector2D;
 import simulation.EntityController;
 
+import java.awt.*;
+
 public class Entity {
 
     private Vector2D position;
@@ -41,6 +43,19 @@ public class Entity {
         direction.setX(position.getX() - oldX);
         direction.setY(position.getY() - oldY);
 
+    }
+
+    public void draw(Graphics g){
+        Vector2D pos = this.getPosition();
+        int x = (int) pos.getX();
+        int y = (int) pos.getY();
+        int r = 10;
+        x = x-(r/2);
+        y = y-(r/2);
+        g.setColor(Color.BLUE);
+        g.fillOval(x,y,r,r);
+        g.setColor(Color.black);
+        g.drawOval(x,y,r,r);
     }
 
     public Vector2D getPosition(){return position;}

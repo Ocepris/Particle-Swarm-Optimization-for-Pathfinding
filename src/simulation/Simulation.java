@@ -14,6 +14,8 @@ public class Simulation implements KeyListener
 	public final static int BLOCKSIZE = 20;
 	private EntityController entityController;
 	private RenderController rc;
+	private StatsContainer sc = new StatsContainer("0.09", "");
+	private int iteration = 0;
 
 	public static void main(String[] args)
 	{
@@ -47,8 +49,8 @@ public class Simulation implements KeyListener
 		EntityRenderer entityRenderer = new EntityRenderer(null, entityController);
 		entityController.createEntities(30);
 
-		StatsContainer sc = new StatsContainer("0.09", mapPath);
-		StatsRenderer sr = new StatsRenderer(sc);
+		sc.setValue("map_name", mapPath);
+		StatsRenderer sr = new StatsRenderer(sc, (envController.getMap().getSizeX()*BLOCKSIZE) + 20);
 		rc.addRenderer(sr);
 		rc.addRenderer(entityRenderer);
 
@@ -57,9 +59,6 @@ public class Simulation implements KeyListener
 		frame.setRenderController(rc);
 		rc.setFrame(frame);
 		rc.triggerRepaint();
-
-
-
 	}
 
 	@Override
@@ -69,6 +68,8 @@ public class Simulation implements KeyListener
 		{
 			entityController.update();
 			rc.triggerRepaint();
+			this.iteration++;
+			sc.setValue("iteration", String.valueOf(this.iteration));
 		}
 
 
