@@ -8,14 +8,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Simulation implements KeyListener
+public class Simulation implements KeyListener, Runnable
 {
 
-	public final static int BLOCKSIZE = 20;
+	public final static int BLOCKSIZE = 50;
 	private EntityController entityController;
 	private RenderController rc;
 	private StatsContainer sc = new StatsContainer("0.09", "");
 	private int iteration = 0;
+	Thread t;
+
 
 	public static void main(String[] args)
 	{
@@ -59,6 +61,10 @@ public class Simulation implements KeyListener
 		frame.setRenderController(rc);
 		rc.setFrame(frame);
 		rc.triggerRepaint();
+
+		t = new Thread(this);
+		t.run();
+
 	}
 
 	@Override
@@ -82,5 +88,23 @@ public class Simulation implements KeyListener
 	@Override
 	public void keyTyped(KeyEvent e) {
 
+	}
+
+	@Override
+	public void run() {
+		while (iteration < 300000)
+		{
+			iteration++;
+			entityController.update();
+			rc.triggerRepaint();
+
+			sc.setValue("iteration", String.valueOf(this.iteration));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
 }

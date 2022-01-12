@@ -32,16 +32,21 @@ public class EntityController {
     public void update()
     {
         double bestDistance = GLOBAL_BEST.getDistance(map2D.getGoal());
-
+        double worstDistance = Double.MIN_VALUE;
 
         for (Entity entity: entityList) {
-//
-            double personalBestDistance = entity.getPersonalBest().getDistance(map2D.getGoal());
-            if(entity.getPosition().getDistance(map2D.getGoal()) < 0.2f)
+
+            if(entity.getPosition().getDistance(map2D.getGoal()) < 5.2f)
                 continue;
 
-
             entity.move(map2D);
+
+
+            double personalBestDistance = entity.getPersonalBest().getDistance(map2D.getGoal());
+
+            if(personalBestDistance > worstDistance)
+                worstDistance = personalBestDistance;
+
 
             double distanceToGoal = entity.getPosition().getDistance(map2D.getGoal());
             if(map2D.getValueOf((int)entity.getPosition().getX()/Simulation.BLOCKSIZE,(int)entity.getPosition().getY()/Simulation.BLOCKSIZE) == Map2D.BORDER)
@@ -54,11 +59,11 @@ public class EntityController {
             }
 
             if(distanceToGoal < personalBestDistance)
-                entity.setPersonalBest(entity.getPosition());
+                entity.setPersonalBest(entity.getPosition().clone());
 
         }
 
-        System.out.println(GLOBAL_BEST+"  "+bestDistance);
+        System.out.println(GLOBAL_BEST+"  "+bestDistance+" "+worstDistance);
     }
 
     public ArrayList<Entity> getEntityList() {

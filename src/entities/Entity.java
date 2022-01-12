@@ -11,8 +11,9 @@ public class Entity {
 
     private Vector2D position;
     private Vector2D direction;
+    private int ticksSinceLastImprovement = 0;
 
-    private double distance = 3;
+    private double distance = 8;
     private Vector2D personalBest;
 
 
@@ -33,9 +34,15 @@ public class Entity {
         Vector2D gBest = new Vector2D(EntityController.GLOBAL_BEST.getX() - position.getX(), EntityController.GLOBAL_BEST.getY() - position.getY()).normalize().mult(distance);
 
         //Random distance
-        dir.mult(4 * Math.random());
-        pBest.mult(4 * Math.random());
+        dir.mult(3 * Math.random());
+        pBest.mult(2 * Math.random());
         gBest.mult(2 * Math.random());
+
+        if(ticksSinceLastImprovement > 100)
+            gBest.mult(0);
+        if(ticksSinceLastImprovement > 300)
+            pBest.mult(0);
+
 
         //Update Position and direction Vector
         double oldX = position.getX();
@@ -52,6 +59,7 @@ public class Entity {
             this.direction = new Vector2D(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
         }
 
+        ticksSinceLastImprovement++;
 
     }
 
@@ -80,5 +88,6 @@ public class Entity {
 
     public void setPersonalBest(Vector2D personalBest) {
         this.personalBest = personalBest;
+        ticksSinceLastImprovement = 0;
     }
 }
