@@ -16,9 +16,9 @@ public class EnvironmentRenderer implements Renderer{
 
     }
 
-    public EnvironmentRenderer(EnvironmentController envController, int blockSize){
+    public EnvironmentRenderer(EnvironmentController envController){
         this.envController = envController;
-        this.blockSize = blockSize;
+        this.blockSize = envController.getBlockSize();
     }
 
     public Frame createMapMatchingFrame(){
@@ -43,10 +43,9 @@ public class EnvironmentRenderer implements Renderer{
     private void drawMap(Graphics g){
         Map2D map = envController.getMap();
         System.out.println("Map dimensions: " + map.getSizeX() + " x " + map.getSizeY());
-        System.out.println("Test: " + map.getValueOf(2, 3));
-        for(int row = 0; row < map.getSizeY(); row++){
-            for(int col = 0; col < map.getSizeX(); col++){
-                int blockType = map.getValueOf(row, col);
+        for(int y = 0; y < map.getSizeY(); y++){
+            for(int x = 0; x < map.getSizeX(); x++){
+                int blockType = map.getValueOf(x, y);
                 System.out.print(blockType);
                 //TODO blockTypes improvement
                 if(blockType == 1){
@@ -59,12 +58,22 @@ public class EnvironmentRenderer implements Renderer{
                     g.setColor(Color.white);
                 }
 
-                g.fillRect(col*blockSize, row*blockSize, blockSize, blockSize);
+                g.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
                 g.setColor(Color.GRAY);
-                g.drawRect(col*blockSize, row*blockSize, blockSize, blockSize);
+                g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
+
+                //test
+                g.setColor(Color.RED);
+                drawCenteredCircle(g, 272, 235, 10);
             }
             System.out.println();
         }
+    }
+
+    public void drawCenteredCircle(Graphics g, int x, int y, int r) {
+        x = x-(r/2);
+        y = y-(r/2);
+        g.fillOval(x,y,r,r);
     }
 
     public void setEnvController(EnvironmentController envController) {

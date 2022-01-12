@@ -13,7 +13,7 @@ public class Map2D {
 
     public int[][] getValues(){ return this.intArray; }
 
-    public int getValueOf(int x, int y){ return this.intArray[x][y]; }
+    public int getValueOf(int x, int y){ return this.intArray[y][x]; }
 
     public int getSizeX(){ return intArray[0].length; }
     public int getSizeY(){ return intArray.length; }

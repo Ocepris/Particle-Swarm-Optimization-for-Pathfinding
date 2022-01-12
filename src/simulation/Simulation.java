@@ -1,5 +1,6 @@
 package simulation;
 
+import math.Vector2D;
 import visuals.EnvironmentRenderer;
 import visuals.Frame;
 import visuals.RenderController;
@@ -21,10 +22,10 @@ public class Simulation
 
 		RenderController rc = new RenderController();
 
-		EnvironmentController envController = new EnvironmentController();
+		EnvironmentController envController = new EnvironmentController(20);
 		envController.loadMapFromCSVFile(mapPath);
 
-		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController, 20);
+		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController);
 		rc.addRenderer(envRenderer);
 
 		StatsContainer sc = new StatsContainer("0.09", mapPath);
@@ -35,5 +36,7 @@ public class Simulation
 		frame.setRenderController(rc);
 		rc.setFrame(frame);
 		rc.triggerRepaint();
+
+		System.out.println("Type: " + envController.getBlockTypeOfPosition(new Vector2D(272, 235.0)));
 	}
 }

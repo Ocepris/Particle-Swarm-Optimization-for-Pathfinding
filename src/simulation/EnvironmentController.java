@@ -1,5 +1,6 @@
 package simulation;
 
+import math.Vector2D;
 import visuals.Frame;
 
 import java.io.BufferedReader;
@@ -12,24 +13,29 @@ import java.util.stream.Stream;
 
 public class EnvironmentController {
     private Map2D map;
-
-    public boolean isMapLoaded() {
-        return mapLoaded;
-    }
-
-    public void setMapLoaded(boolean mapLoaded) {
-        this.mapLoaded = mapLoaded;
-    }
-
+    private int blockSize;
     private boolean mapLoaded = false;
 
-    public EnvironmentController(Map2D map2d){
+    public EnvironmentController(Map2D map2d, int blockSize){
         this.map = map2d;
+        this.blockSize = blockSize;
     }
-    public EnvironmentController(){}
+    public EnvironmentController(int blockSize){
+        this.blockSize = blockSize;
+    }
 
-    public void setMap(Map2D map){
-        this.map = map;
+    public int getBlockTypeOfPosition(Vector2D position){
+        //get coordinates
+        System.out.println(position.getX() + " " + position.getY());
+        System.out.println(this.blockSize);
+        int mapPositionX = ((int) position.getX()) / this.blockSize;
+        int mapPositionY = ((int) position.getY()) / this.blockSize;
+        System.out.println(mapPositionX + " " + mapPositionY);
+        if(mapPositionX < this.map.getSizeX() && mapPositionY < this.map.getSizeY()){
+            return this.map.getValueOf(mapPositionX, mapPositionY);
+        }else{
+            return -1;
+        }
     }
 
     public void loadMapFromCSVFile(String path){
@@ -64,7 +70,23 @@ public class EnvironmentController {
         }
     }
 
+    public void setMap(Map2D map){
+        this.map = map;
+    }
+
     public Map2D getMap() {
         return this.map;
+    }
+
+    public boolean isMapLoaded() {
+        return mapLoaded;
+    }
+
+    public void setMapLoaded(boolean mapLoaded) {
+        this.mapLoaded = mapLoaded;
+    }
+
+    public int getBlockSize(){
+        return this.blockSize;
     }
 }
