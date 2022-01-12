@@ -43,6 +43,8 @@ public class Entity {
 
     }
 
+    public Vector2D getPosition(){return position;}
+
     public void jump(){
 
     }

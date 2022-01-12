@@ -4,7 +4,6 @@ import simulation.EnvironmentController;
 import simulation.Map2D;
 
 import java.awt.*;
-import java.time.Clock;
 import java.util.logging.Logger;
 
 public class EnvironmentRenderer implements Renderer{
@@ -48,11 +47,11 @@ public class EnvironmentRenderer implements Renderer{
                 int blockType = map.getValueOf(x, y);
                 System.out.print(blockType);
                 //TODO blockTypes improvement
-                if(blockType == 1){
+                if(blockType == Map2D.BORDER){
                     g.setColor(Color.BLACK);
-                }else if(blockType == 2){
+                }else if(blockType == Map2D.GOAL){
                     g.setColor(Color.orange);
-                }else if(blockType == 3){
+                }else if(blockType == Map2D.START){
                     g.setColor(Color.BLUE);
                 }else{
                     g.setColor(Color.white);

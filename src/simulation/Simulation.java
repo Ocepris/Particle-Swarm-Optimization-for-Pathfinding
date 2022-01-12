@@ -5,6 +5,7 @@ import visuals.EnvironmentRenderer;
 import visuals.Frame;
 import visuals.RenderController;
 import visuals.StatsRenderer;
+import visuals.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,11 +23,14 @@ public class Simulation
 
 		RenderController rc = new RenderController();
 
-		EnvironmentController envController = new EnvironmentController(20);
+		EnvironmentController envController = new EnvironmentController();
 		envController.loadMapFromCSVFile(mapPath);
 
-		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController);
+		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController, 20);
 		rc.addRenderer(envRenderer);
+
+		EntityRenderer entityRenderer = new EntityRenderer(null);
+		EntityController entityController = new EntityController(entityRenderer,envController);
 
 		StatsContainer sc = new StatsContainer("0.09", mapPath);
 		StatsRenderer sr = new StatsRenderer(sc);
@@ -36,7 +40,5 @@ public class Simulation
 		frame.setRenderController(rc);
 		rc.setFrame(frame);
 		rc.triggerRepaint();
-
-		System.out.println("Type: " + envController.getBlockTypeOfPosition(new Vector2D(272, 235.0)));
 	}
 }

@@ -38,6 +38,13 @@ public class Vector2D {
         return this.mult(1 / getLength());
     }
 
+    public double getDistance(Vector2D vec)
+    {
+        double a = vec.x - this.x;
+        double b = vec.y - this.y;
+        return Math.sqrt((a*a)+(b*b));
+    }
+
     public double getX() {
         return x;
     }
