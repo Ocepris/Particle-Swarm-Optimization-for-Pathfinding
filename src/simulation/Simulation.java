@@ -24,7 +24,7 @@ public class Simulation
 		EnvironmentController envController = new EnvironmentController();
 		envController.loadMapFromCSVFile(mapPath);
 
-		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController, 50);
+		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController, 20);
 		rc.addRenderer(envRenderer);
 
 		StatsContainer sc = new StatsContainer("0.09", mapPath);

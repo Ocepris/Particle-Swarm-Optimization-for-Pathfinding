@@ -13,6 +13,16 @@ import java.util.stream.Stream;
 public class EnvironmentController {
     private Map2D map;
 
+    public boolean isMapLoaded() {
+        return mapLoaded;
+    }
+
+    public void setMapLoaded(boolean mapLoaded) {
+        this.mapLoaded = mapLoaded;
+    }
+
+    private boolean mapLoaded = false;
+
     public EnvironmentController(Map2D map2d){
         this.map = map2d;
     }
@@ -23,6 +33,7 @@ public class EnvironmentController {
     }
 
     public void loadMapFromCSVFile(String path){
+        this.setMapLoaded(false);
         ArrayList<Integer[]> lineArray = new ArrayList<>();
 
         try(BufferedReader br = Files.newBufferedReader(Path.of(path),StandardCharsets.UTF_8)){
@@ -46,6 +57,7 @@ public class EnvironmentController {
             }
 
             this.map = new Map2D(intArray);
+            this.setMapLoaded(true);
 
         } catch (IOException ioe){
             ioe.printStackTrace();

@@ -35,14 +35,19 @@ public class EnvironmentRenderer implements Renderer{
 
     @Override
     public void render(Graphics g) {
-        this.drawMap(g);
+        if(envController.isMapLoaded()) {
+            this.drawMap(g);
+        }
     }
 
     private void drawMap(Graphics g){
         Map2D map = envController.getMap();
-        for(int x = 0; x < map.getSizeX(); x++){
-            for(int y = 0; y < map.getSizeY(); y++){
-                int blockType = map.getValueOf(x, y);
+        System.out.println("Map dimensions: " + map.getSizeX() + " x " + map.getSizeY());
+        System.out.println("Test: " + map.getValueOf(2, 3));
+        for(int row = 0; row < map.getSizeY(); row++){
+            for(int col = 0; col < map.getSizeX(); col++){
+                int blockType = map.getValueOf(row, col);
+                System.out.print(blockType);
                 //TODO blockTypes improvement
                 if(blockType == 1){
                     g.setColor(Color.BLACK);
@@ -54,10 +59,11 @@ public class EnvironmentRenderer implements Renderer{
                     g.setColor(Color.white);
                 }
 
-                g.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
+                g.fillRect(col*blockSize, row*blockSize, blockSize, blockSize);
                 g.setColor(Color.GRAY);
-                g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
+                g.drawRect(col*blockSize, row*blockSize, blockSize, blockSize);
             }
+            System.out.println();
         }
     }
 
