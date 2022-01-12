@@ -41,12 +41,9 @@ public class EnvironmentRenderer implements Renderer{
 
     private void drawMap(Graphics g){
         Map2D map = envController.getMap();
-        System.out.println("Map dimensions: " + map.getSizeX() + " x " + map.getSizeY());
         for(int y = 0; y < map.getSizeY(); y++){
             for(int x = 0; x < map.getSizeX(); x++){
                 int blockType = map.getValueOf(x, y);
-                System.out.print(blockType);
-                //TODO blockTypes improvement
                 if(blockType == Map2D.BORDER){
                     g.setColor(Color.BLACK);
                 }else if(blockType == Map2D.GOAL){
@@ -65,7 +62,6 @@ public class EnvironmentRenderer implements Renderer{
                 g.setColor(Color.RED);
                 drawCenteredCircle(g, 272, 235, 10);
             }
-            System.out.println();
         }
     }
 

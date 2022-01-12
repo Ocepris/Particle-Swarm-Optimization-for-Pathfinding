@@ -23,7 +23,7 @@ public class Map2D {
     private void calculateStartAndGoal()
     {
         for(int y = 0; y < intArray.length; y++)
-            for(int x = 0; y < intArray[y].length; x++)
+            for(int x = 0; x < intArray[y].length; x++)
             {
                 if(intArray[y][x] == GOAL)
                     goal = new Vector2D(x,y);

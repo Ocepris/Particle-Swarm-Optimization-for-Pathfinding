@@ -23,10 +23,10 @@ public class Simulation
 
 		RenderController rc = new RenderController();
 
-		EnvironmentController envController = new EnvironmentController();
+		EnvironmentController envController = new EnvironmentController(20);
 		envController.loadMapFromCSVFile(mapPath);
 
-		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController, 20);
+		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController);
 		rc.addRenderer(envRenderer);
 
 		EntityRenderer entityRenderer = new EntityRenderer(null);

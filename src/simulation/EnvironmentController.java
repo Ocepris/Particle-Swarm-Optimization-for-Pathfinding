@@ -9,12 +9,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class EnvironmentController {
     private Map2D map;
     private int blockSize;
     private boolean mapLoaded = false;
+
+    private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public EnvironmentController(Map2D map2d, int blockSize){
         this.map = map2d;
@@ -26,11 +29,8 @@ public class EnvironmentController {
 
     public int getBlockTypeOfPosition(Vector2D position){
         //get coordinates
-        System.out.println(position.getX() + " " + position.getY());
-        System.out.println(this.blockSize);
         int mapPositionX = ((int) position.getX()) / this.blockSize;
         int mapPositionY = ((int) position.getY()) / this.blockSize;
-        System.out.println(mapPositionX + " " + mapPositionY);
         if(mapPositionX < this.map.getSizeX() && mapPositionY < this.map.getSizeY()){
             return this.map.getValueOf(mapPositionX, mapPositionY);
         }else{
@@ -64,6 +64,7 @@ public class EnvironmentController {
 
             this.map = new Map2D(intArray);
             this.setMapLoaded(true);
+            logger.info("Loaded map " + path + " to controller");
 
         } catch (IOException ioe){
             ioe.printStackTrace();
