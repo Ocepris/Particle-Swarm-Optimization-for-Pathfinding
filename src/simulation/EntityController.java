@@ -37,10 +37,11 @@ public class EntityController {
         for (Entity entity: entityList) {
 //
             double personalBestDistance = entity.getPersonalBest().getDistance(map2D.getGoal());
-//            if(entity.getPosition().getDistance(map2D.getGoal()) < 1.2f)
-//                continue;
+            if(entity.getPosition().getDistance(map2D.getGoal()) < 0.2f)
+                continue;
 
-            entity.move();
+
+            entity.move(map2D);
 
             double distanceToGoal = entity.getPosition().getDistance(map2D.getGoal());
             if(map2D.getValueOf((int)entity.getPosition().getX()/Simulation.BLOCKSIZE,(int)entity.getPosition().getY()/Simulation.BLOCKSIZE) == Map2D.BORDER)

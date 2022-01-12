@@ -2,6 +2,8 @@ package entities;
 
 import math.Vector2D;
 import simulation.EntityController;
+import simulation.Map2D;
+import simulation.Simulation;
 
 import java.awt.*;
 
@@ -18,12 +20,12 @@ public class Entity {
     {
         this.position = new Vector2D(startPos.getX(), startPos.getY());
         this.personalBest = startPos;
-        this.direction = new Vector2D(Math.random(), Math.random()).mult(distance);
+        this.direction = new Vector2D(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
 
     }
 
 
-    public void move(){
+    public void move(Map2D map){
 
         //Calculate direction for Vectors to move into
         Vector2D dir = new Vector2D(direction.getX(),direction.getY()).normalize().mult(distance);
@@ -31,8 +33,8 @@ public class Entity {
         Vector2D gBest = new Vector2D(EntityController.GLOBAL_BEST.getX() - position.getX(), EntityController.GLOBAL_BEST.getY() - position.getY()).normalize().mult(distance);
 
         //Random distance
-        dir.mult(2 * Math.random());
-        pBest.mult(2 * Math.random());
+        dir.mult(4 * Math.random());
+        pBest.mult(4 * Math.random());
         gBest.mult(2 * Math.random());
 
         //Update Position and direction Vector
@@ -40,9 +42,16 @@ public class Entity {
         double oldY = position.getY();
 
         this.position.add(dir).add(pBest).add(gBest);
-
         direction.setX(position.getX() - oldX);
         direction.setY(position.getY() - oldY);
+
+        if(map.getValueOf((int) position.getX()/ Simulation.BLOCKSIZE,(int) position.getY()/ Simulation.BLOCKSIZE) == Map2D.BORDER)
+        {
+            this.position.setX(oldX);
+            this.position.setY(oldY);
+            this.direction = new Vector2D(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
+        }
+
 
     }
 
