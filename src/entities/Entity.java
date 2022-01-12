@@ -13,7 +13,7 @@ public class Entity {
 
     public Entity(Vector2D startPos)
     {
-        this.position = startPos;
+        this.position = new Vector2D(startPos.getX(), startPos.getY());
         this.personalBest = startPos;
         this.direction = new Vector2D(Math.random(), Math.random()).mult(distance);
 

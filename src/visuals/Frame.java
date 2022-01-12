@@ -2,7 +2,6 @@ package visuals;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Frame extends JPanel{
     private JFrame frame;
@@ -29,4 +28,6 @@ public class Frame extends JPanel{
         }
 
     }
+
+    public JFrame getJFrame(){return frame;}
 }

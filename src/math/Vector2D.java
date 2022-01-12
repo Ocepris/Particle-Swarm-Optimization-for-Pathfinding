@@ -35,7 +35,10 @@ public class Vector2D {
 
     public Vector2D normalize()
     {
-        return this.mult(1 / getLength());
+        if(getLength() != 0)
+            return this.mult(1 / getLength());
+        else
+            return this;
     }
 
     public double getDistance(Vector2D vec)
