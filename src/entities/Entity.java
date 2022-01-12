@@ -10,8 +10,9 @@ public class Entity {
     private Vector2D position;
     private Vector2D direction;
 
-    private double distance = 2;
+    private double distance = 3;
     private Vector2D personalBest;
+
 
     public Entity(Vector2D startPos)
     {
@@ -25,7 +26,7 @@ public class Entity {
     public void move(){
 
         //Calculate direction for Vectors to move into
-        Vector2D dir = new Vector2D(direction.getX() - position.getX(), direction.getY() - position.getY()).normalize().mult(distance);
+        Vector2D dir = new Vector2D(direction.getX(),direction.getY()).normalize().mult(distance);
         Vector2D pBest = new Vector2D(personalBest.getX() - position.getX(), personalBest.getY() - position.getY()).normalize().mult(distance);
         Vector2D gBest = new Vector2D(EntityController.GLOBAL_BEST.getX() - position.getX(), EntityController.GLOBAL_BEST.getY() - position.getY()).normalize().mult(distance);
 
@@ -38,7 +39,7 @@ public class Entity {
         double oldX = position.getX();
         double oldY = position.getY();
 
-        this.position.add(direction).add(pBest).add(gBest);
+        this.position.add(dir).add(pBest).add(gBest);
 
         direction.setX(position.getX() - oldX);
         direction.setY(position.getY() - oldY);
@@ -62,5 +63,13 @@ public class Entity {
 
     public void jump(){
 
+    }
+
+    public Vector2D getPersonalBest() {
+        return personalBest;
+    }
+
+    public void setPersonalBest(Vector2D personalBest) {
+        this.personalBest = personalBest;
     }
 }

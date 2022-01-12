@@ -1,5 +1,6 @@
 package visuals;
 
+import simulation.EntityController;
 import simulation.EnvironmentController;
 import simulation.Map2D;
 
@@ -58,6 +59,18 @@ public class EnvironmentRenderer implements Renderer{
                 g.setColor(Color.GRAY);
                 g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
             }
+        }
+
+        if(EntityController.GLOBAL_BEST != null)
+        {
+            int x =(int) EntityController.GLOBAL_BEST.getX()/blockSize;
+            int y =(int) EntityController.GLOBAL_BEST.getY()/blockSize;
+            g.setColor(Color.RED);
+
+
+            g.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
+            g.setColor(Color.GRAY);
+            g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
         }
     }
 
