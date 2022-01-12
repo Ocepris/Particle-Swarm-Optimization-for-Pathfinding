@@ -1,9 +1,6 @@
 package simulation;
 
-import visuals.EnvironmentRenderer;
-import visuals.Frame;
-import visuals.RenderController;
-import visuals.StatsRenderer;
+import visuals.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +23,9 @@ public class Simulation
 
 		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController, 20);
 		rc.addRenderer(envRenderer);
+
+		EntityRenderer entityRenderer = new EntityRenderer(null);
+		EntityController entityController = new EntityController(entityRenderer,envController);
 
 		StatsContainer sc = new StatsContainer("0.09", mapPath);
 		StatsRenderer sr = new StatsRenderer(sc);
