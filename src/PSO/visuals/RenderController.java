@@ -1,6 +1,5 @@
-package visuals;
+package PSO.visuals;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class RenderController {
@@ -27,6 +26,7 @@ public class RenderController {
     public void addRenderer(Renderer r){
         renderers.add(r);
     }
+    public void clearRenderers(){renderers.clear();}
     public void removeRenderer(Renderer r){
         renderers.remove(r);
     }

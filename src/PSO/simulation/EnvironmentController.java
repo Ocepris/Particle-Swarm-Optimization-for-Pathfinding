@@ -1,7 +1,6 @@
-package simulation;
+package PSO.simulation;
 
-import math.Vector2D;
-import visuals.Frame;
+import PSO.math.Vector2D;
 
 import java.io.BufferedReader;
 import java.io.IOException;

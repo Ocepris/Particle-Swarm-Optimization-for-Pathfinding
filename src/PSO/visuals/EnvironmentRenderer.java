@@ -1,8 +1,8 @@
-package visuals;
+package PSO.visuals;
 
-import simulation.EntityController;
-import simulation.EnvironmentController;
-import simulation.Map2D;
+import PSO.simulation.EntityController;
+import PSO.simulation.EnvironmentController;
+import PSO.simulation.Map2D;
 
 import java.awt.*;
 import java.util.logging.Logger;

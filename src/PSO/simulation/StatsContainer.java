@@ -1,4 +1,4 @@
-package simulation;
+package PSO.simulation;
 
 import java.util.HashMap;
 import java.util.Map;

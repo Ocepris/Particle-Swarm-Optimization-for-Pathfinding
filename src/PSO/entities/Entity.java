@@ -1,9 +1,9 @@
-package entities;
+package PSO.entities;
 
-import math.Vector2D;
-import simulation.EntityController;
-import simulation.Map2D;
-import simulation.Simulation;
+import PSO.math.Vector2D;
+import PSO.simulation.EntityController;
+import PSO.simulation.Map2D;
+import PSO.simulation.Simulation;
 
 import java.awt.*;
 

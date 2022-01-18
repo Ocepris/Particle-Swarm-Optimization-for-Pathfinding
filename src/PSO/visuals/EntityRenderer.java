@@ -1,8 +1,7 @@
-package visuals;
+package PSO.visuals;
 
-import entities.Entity;
-import math.Vector2D;
-import simulation.EntityController;
+import PSO.entities.Entity;
+import PSO.simulation.EntityController;
 
 import java.awt.*;
 import java.util.ArrayList;

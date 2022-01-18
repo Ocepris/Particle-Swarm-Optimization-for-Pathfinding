@@ -1,4 +1,4 @@
-package visuals;
+package PSO.visuals;
 
 import java.awt.*;
 

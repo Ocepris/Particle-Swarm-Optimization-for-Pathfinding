@@ -1,6 +1,6 @@
-package visuals;
+package PSO.visuals;
 
-import simulation.StatsContainer;
+import PSO.simulation.StatsContainer;
 
 import java.awt.*;
 

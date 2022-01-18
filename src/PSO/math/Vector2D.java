@@ -1,4 +1,4 @@
-package math;
+package PSO.math;
 
 public class Vector2D {
     private double x;

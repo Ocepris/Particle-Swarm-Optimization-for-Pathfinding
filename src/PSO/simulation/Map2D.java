@@ -1,6 +1,6 @@
-package simulation;
+package PSO.simulation;
 
-import math.Vector2D;
+import PSO.math.Vector2D;
 
 public class Map2D {
     private int[][] intArray;

@@ -1,11 +1,12 @@
-package simulation;
+package PSO.simulation;
 
-import entities.Entity;
-import math.Vector2D;
+import Evolution.updatable;
+import PSO.entities.Entity;
+import PSO.math.Vector2D;
 
 import java.util.ArrayList;
 
-public class EntityController {
+public class EntityController implements updatable {
     private ArrayList<Entity> entityList = new ArrayList<>();
     private EnvironmentController envController;
     private Map2D map2D;
@@ -63,7 +64,6 @@ public class EntityController {
 
         }
 
-        System.out.println(GLOBAL_BEST+"  "+bestDistance+" "+worstDistance);
     }
 
     public ArrayList<Entity> getEntityList() {
