@@ -15,7 +15,7 @@ public class Population implements updatable
 	Dot[] dots;
 	int gen = 0;
 	float maxFit=0;
-	float minSteps=600;
+	static float minSteps=600;
 	boolean fastforward = false;
 	static BufferedImage img;
 	public Population(int size, EnvironmentController environmentController)

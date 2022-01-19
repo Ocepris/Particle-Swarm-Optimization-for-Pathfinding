@@ -40,6 +40,9 @@ public class Dot implements updatable
 		float oldX = pos.getX();
 		float oldY = pos.getY();
 
+		if(brain.step > Population.minSteps + 10)
+			living = false;
+
 		if(living && !reachedGoal)
 		{
 			if(brain.directions.length > brain.step)
@@ -85,7 +88,6 @@ public class Dot implements updatable
 		if(reachedGoal)
 		{
 			fitness = (float) (1.3+  1/ (Math.pow(brain.step, 2)));
-			System.out.println("finished!");
 		}
 		else
 			fitness = (float) (1f / (distanceToGoal * distanceToGoal));
