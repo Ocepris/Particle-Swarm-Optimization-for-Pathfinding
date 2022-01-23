@@ -13,7 +13,6 @@ public class PathOptimizer {
         for(int i = 0; i < path.size() -1; i++)
             for(int j = path.size() -1; j-1 > i+1; j--) {
 
-                System.out.println(i +" "+j);
                 Vector2D v1 = path.get(i);
                 Vector2D v2 = path.get(i + 1);
                 Vector2D v3 = path.get(j - 1);
