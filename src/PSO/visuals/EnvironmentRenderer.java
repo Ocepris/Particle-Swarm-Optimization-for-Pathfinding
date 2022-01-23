@@ -1,15 +1,19 @@
 package PSO.visuals;
 
+import PSO.math.Vector2D;
 import PSO.simulation.EntityController;
 import PSO.simulation.EnvironmentController;
 import PSO.simulation.Map2D;
 
 import java.awt.*;
+import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public class EnvironmentRenderer implements Renderer{
     private EnvironmentController envController;
     private int blockSize;
+    private List<Vector2D> path;
     private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public EnvironmentRenderer(){
@@ -38,6 +42,30 @@ public class EnvironmentRenderer implements Renderer{
         if(envController.isMapLoaded()) {
             this.drawMap(g);
         }
+    }
+
+    private void drawPath(Graphics g)
+    {
+        g.setColor(Color.RED);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(5));
+        if(path == null)
+            return;
+
+        Vector2D startPos = null;
+        for (int i = 0; i < path.size(); i++)
+        {
+            Vector2D pos = path.get(i);
+            if(startPos == null)
+            {
+                startPos = pos;
+                continue;
+            }
+            g.drawLine((int)startPos.getX(),(int) startPos.getY(),(int) pos.getX(),(int) pos.getY());
+            startPos = pos;
+        }
+
+        g2.setStroke(new BasicStroke(1));
     }
 
     private void drawMap(Graphics g){
@@ -72,6 +100,8 @@ public class EnvironmentRenderer implements Renderer{
             g.setColor(Color.GRAY);
             g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
         }
+
+        drawPath(g);
     }
 
     public void drawCenteredCircle(Graphics g, int x, int y, int r) {
@@ -82,5 +112,13 @@ public class EnvironmentRenderer implements Renderer{
 
     public void setEnvController(EnvironmentController envController) {
         this.envController = envController;
+    }
+
+    public List<Vector2D> getPath() {
+        return path;
+    }
+
+    public void setPath(List<Vector2D> path) {
+        this.path = path;
     }
 }

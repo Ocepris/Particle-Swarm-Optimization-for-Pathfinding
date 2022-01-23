@@ -36,7 +36,7 @@ public class Brain
         return b;
     }
 
-    public void mutate(Dot freundin)
+    public void mutate()
     {
         float mutationRate =0.01f;
         Random rnd = new Random();

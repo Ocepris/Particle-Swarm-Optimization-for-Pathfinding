@@ -6,12 +6,15 @@ import PSO.simulation.Map2D;
 import PSO.simulation.Simulation;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Entity {
 
     private Vector2D position;
     private Vector2D direction;
     private int ticksSinceLastImprovement = 0;
+    private List<Vector2D> path = new ArrayList<>();
 
     private double distance = 8;
     private Vector2D personalBest;
@@ -25,7 +28,7 @@ public class Entity {
 
     }
 
-
+    boolean oneDirection = false;
     public void move(Map2D map){
 
         //Calculate direction for Vectors to move into
@@ -42,6 +45,7 @@ public class Entity {
             gBest.mult(0);
         if(ticksSinceLastImprovement > 300)
             pBest.mult(0);
+        oneDirection = ticksSinceLastImprovement > 310;
 
 
         //Update Position and direction Vector
@@ -57,7 +61,11 @@ public class Entity {
             this.position.setX(oldX);
             this.position.setY(oldY);
             this.direction = new Vector2D(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
+            if(oneDirection)
+                path.add(position.clone());
         }
+        else if(!oneDirection)
+            path.add(position.clone());
 
         ticksSinceLastImprovement++;
 
@@ -90,4 +98,6 @@ public class Entity {
         this.personalBest = personalBest;
         ticksSinceLastImprovement = 0;
     }
+
+    public List<Vector2D> getPath(){return path;};
 }

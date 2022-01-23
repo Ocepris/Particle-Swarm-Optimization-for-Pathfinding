@@ -5,6 +5,8 @@ import PSO.simulation.EnvironmentController;
 import PSO.simulation.Map2D;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -32,6 +34,38 @@ public class Dot implements updatable
 		pos = new Vektor((float) start.getX(),(float) start.getY());
 		vel = new Vektor(0, 0);
 		acc = new Vektor(0, 0);
+	}
+
+
+	public List<Vector2D> calculatePath()
+	{
+		ArrayList<Vector2D> path = new ArrayList<>();
+		Vector2D start = environmentController.getMap().getStart();
+		pos = new Vektor((float) start.getX(),(float) start.getY());
+		vel = new Vektor(0, 0);
+		acc = new Vektor(0, 0);
+		brain.step = 0;
+		reachedGoal =false;
+		living = true;
+
+		float oldX = pos.getX();
+		float oldY = pos.getY();
+
+		while (!reachedGoal)
+		{
+			update();
+//			if(pos.getX() != oldX || pos.getY() != oldY)
+//			{
+				path.add(new Vector2D(pos.getX(), pos.getY()));
+				oldX = pos.getX();
+				oldY = pos.getY();
+
+//			}
+
+		}
+
+		return path;
+
 	}
 
 	@Override
@@ -87,20 +121,33 @@ public class Dot implements updatable
 		float distanceToGoal = pos.getDistance(Game.goal);
 		if(reachedGoal)
 		{
-			fitness = (float) (1.3+  1/ (Math.pow(brain.step, 2)));
+			fitness = (float) (1.3+  600 - brain.step);
 		}
 		else
 			fitness = (float) (1f / (distanceToGoal * distanceToGoal));
 	}
 
+	public double absoluteDistanceToGoal()
+	{
+		List<Vector2D> path = calculatePath();
+		double dist = 0;
+		for(int i = 1; i < path.size(); i++)
+		{
+			Vector2D pos1 = path.get(i - 1);
+			Vector2D pos2 = path.get(i);
+			dist += pos1.getDistance(pos2);
+		}
+		return dist;
+	}
+
 	public void draw(Graphics g)
 	{
 
-//		g.setColor(brain.color);
-		if(Population.img != null)
-			g.drawImage(Population.img,(int)pos.getX() -20,(int) pos.getY()-20,40,40,null);
+		g.setColor(brain.color);
+//		if(Population.img != null)
+//			g.drawImage(Population.img,(int)pos.getX() -20,(int) pos.getY()-20,40,40,null);
 
-//		g.fillOval((int) pos.getX(), (int) pos.getY(), 5, 5);
+		g.fillOval((int) pos.getX(), (int) pos.getY(), 5, 5);
 		
 	}
 

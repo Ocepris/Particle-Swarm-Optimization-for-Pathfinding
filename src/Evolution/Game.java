@@ -1,6 +1,8 @@
 package Evolution;
 
+import PSO.math.Vector2D;
 import PSO.simulation.EnvironmentController;
+import PSO.simulation.IEntityController;
 import PSO.simulation.Simulation;
 import PSO.visuals.Renderer;
 
@@ -8,8 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
-public class Game extends JPanel implements updatable, Renderer, KeyListener
+public class Game extends JPanel implements IEntityController, Renderer, KeyListener
 {
 	
 	static Vektor goal;
@@ -19,7 +22,7 @@ public class Game extends JPanel implements updatable, Renderer, KeyListener
 	{
 		goal = new Vektor((float) envController.getMap().getGoal().getX(),(float) envController.getMap().getGoal().getY());
 		population = new Population(250, envController);
-		
+
 	}
 
 
@@ -78,5 +81,11 @@ public class Game extends JPanel implements updatable, Renderer, KeyListener
 	@Override
 	public void render(Graphics g) {
 		draw(g);
+	}
+
+	@Override
+	public List<Vector2D> getBestPath() {
+		Dot bestDot = population.getBestDot();
+		return bestDot.calculatePath();
 	}
 }

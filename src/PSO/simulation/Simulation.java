@@ -1,13 +1,18 @@
 package PSO.simulation;
 
 import Evolution.Game;
-import Evolution.updatable;
+import IntersectionTester.PathOptimizer;
+import PSO.math.Vector2D;
 import PSO.visuals.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.lang.Math.abs;
 
 
 public class Simulation implements KeyListener, Runnable
@@ -19,8 +24,9 @@ public class Simulation implements KeyListener, Runnable
 	public boolean running = true;
 	public static boolean fastforward = false;
 
-	private updatable entityController;
+	private IEntityController entityController;
 	private EnvironmentController envController;
+	private EnvironmentRenderer envRenderer;
 	private RenderController rc;
 	private StatsContainer sc = new StatsContainer("0.09", "");
 	private int iteration = 0;
@@ -76,7 +82,7 @@ public class Simulation implements KeyListener, Runnable
 		sc.setValue("map_name", mapPath);
 		envController = new EnvironmentController(BLOCKSIZE);
 		envController.loadMapFromCSVFile(mapPath);
-		EnvironmentRenderer envRenderer = new EnvironmentRenderer(envController);
+		envRenderer = new EnvironmentRenderer(envController);
 		rc.addRenderer(envRenderer);
 
 		if(frame == null)
@@ -125,8 +131,120 @@ public class Simulation implements KeyListener, Runnable
 			initPSO();
 			running = true;
 		}
+		else if(e.getKeyChar() == 'o')
+		{
+			List<Vector2D> bestPath = entityController.getBestPath();
+			PathOptimizer pathOptimizer = new PathOptimizer();
+			envRenderer.setPath(pathOptimizer.optimizePath(bestPath));
+
+		}else if(e.getKeyChar() == 'u')
+		{
+			List<Vector2D> bestPath = entityController.getBestPath();
+			envRenderer.setPath(bestPath);
+
+//			ArrayList<Vector2D> path = new ArrayList<>();
+//			path.add(new Vector2D(150,150));
+//			path.add(new Vector2D(150,300));
+//			path.add(new Vector2D(200,200));
+//			path.add(new Vector2D(200,150));
+//			path.add(new Vector2D(100,200));
+//			envRenderer.setPath(path);
+		}
+
+	}
 
 
+	public List<Vector2D> optimizePath(List<Vector2D> path)
+	{
+
+		Vector2D v11 = new Vector2D(1,1);
+		Vector2D v22 = new Vector2D(1,5);
+		Vector2D v33 = new Vector2D(0,2);
+		Vector2D v44 = new Vector2D(3,5);
+
+		var t = intersection(v11,v22,v33,v44);
+
+		for(int i = 0; i < path.size() -1; i++)
+			for(int j = path.size() -1; j-1 > i+1; j--) {
+
+				System.out.println(i +" "+j);
+				Vector2D v1 = path.get(i);
+				Vector2D v2 = path.get(i + 1);
+				Vector2D v3 = path.get(j - 1);
+				Vector2D v4 = path.get(j);
+
+
+				Vector2D intersectionPoint = intersection(v1, v2, v3, v4);
+				if (intersectionPoint != null) {
+					ArrayList<Vector2D> newPath = new ArrayList<>();
+					for (int x = 0; x <= i; x++) {
+						newPath.add(path.get(x));
+					}
+					newPath.add(intersectionPoint);
+					for (int x = j; x < path.size(); x++) {
+						newPath.add(path.get(x));
+					}
+
+					return optimizePath(newPath);
+				}
+			}
+
+		return path;
+	}
+
+	public Vector2D intersection(Vector2D A, Vector2D B, Vector2D C, Vector2D D)
+	{
+		double x1 = A.getX();
+		double x2 = B.getX();
+		double y1 = A.getY();
+		double y2 = B.getY();
+
+		double x3 = C.getX();
+		double x4 = D.getX();
+		double y3 = C.getY();
+		double y4 = D.getY();
+
+
+
+		// Line AB represented as a1x + b1y = c1
+		double a1 = B.getY() - A.getY();
+		double b1 = A.getX() - B.getX();
+		double c1 = a1*(A.getY()) + b1*(A.getY());
+
+		// Line CD represented as a2x + b2y = c2
+		double a2 = D.getY() - C.getY();
+		double b2 = C.getX() - D.getX();
+		double c2 = a2*(C.getX())+ b2*(C.getY());
+
+		double determinant = a1*b2 - a2*b1;
+
+		if (determinant == 0)
+		{
+			// The lines are parallel. This is simplified
+			// by returning a pair of FLT_MAX
+			return null;
+		}
+		else
+		{
+			double x = (b2*c1 - b1*c2)/determinant;
+			double y = (a1*c2 - a2*c1)/determinant;
+
+			double slope = A.slope(B);
+			var b = A.getY() - (slope * A.getX());
+
+			double expectedY = slope * x +b;
+			double diffY = abs(y - expectedY);
+			if(diffY > 3f)
+				return null;
+
+			double expectedX = (y-b) / slope;
+			double diffX = abs(x - expectedX);
+			if(diffX > 3f)
+				return null;
+
+
+			return new Vector2D(x, y);
+		}
 	}
 
 	@Override

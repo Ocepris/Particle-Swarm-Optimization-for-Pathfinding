@@ -48,6 +48,26 @@ public class Vector2D {
         return Math.sqrt((a*a)+(b*b));
     }
 
+    public double slope(Vector2D vec)
+    {
+        Vector2D A;
+        Vector2D B;
+
+        if(this.getX() < vec.getX())
+        {
+            A = this;
+            B = vec;
+        }
+        else
+        {
+            A = vec;
+            B = this;
+        }
+
+        double diffx = B.getX() - A.getX();
+        double diffy = B.getY() - A.getY();
+        return diffy / diffx;
+    }
     public double getX() {
         return x;
     }

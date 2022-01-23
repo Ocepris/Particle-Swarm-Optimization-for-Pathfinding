@@ -22,17 +22,17 @@ public class Map2D {
 
     private void calculateStartAndGoal()
     {
+        Vector2D offset = new Vector2D(Simulation.BLOCKSIZE/2,Simulation.BLOCKSIZE/2);
         for(int y = 0; y < intArray.length; y++)
             for(int x = 0; x < intArray[y].length; x++)
             {
                 if(intArray[y][x] == GOAL)
                 {
-                    Vector2D offset = new Vector2D(Simulation.BLOCKSIZE/2,Simulation.BLOCKSIZE/2);
                     goal = new Vector2D(x,y).mult(Simulation.BLOCKSIZE).add(offset);
 
                 }
                 else if(intArray[y][x] == START)
-                    start = new Vector2D(x,y).mult(Simulation.BLOCKSIZE);
+                    start = new Vector2D(x,y).mult(Simulation.BLOCKSIZE).add(offset);
             }
     }
 

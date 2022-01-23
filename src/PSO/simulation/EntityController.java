@@ -1,16 +1,17 @@
 package PSO.simulation;
 
-import Evolution.updatable;
 import PSO.entities.Entity;
 import PSO.math.Vector2D;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class EntityController implements updatable {
+public class EntityController implements IEntityController {
     private ArrayList<Entity> entityList = new ArrayList<>();
     private EnvironmentController envController;
     private Map2D map2D;
     public static Vector2D GLOBAL_BEST;
+    private Entity entityFirstInGoal = null;
 
     public EntityController(EnvironmentController envController){
         this.envController = envController;
@@ -38,7 +39,13 @@ public class EntityController implements updatable {
         for (Entity entity: entityList) {
 
             if(entity.getPosition().getDistance(map2D.getGoal()) < 5.2f)
+            {
+                if(entityFirstInGoal == null)
+                    entityFirstInGoal = entity;
+
                 continue;
+
+            }
 
             entity.move(map2D);
 
@@ -72,6 +79,14 @@ public class EntityController implements updatable {
 
     public void setEntityList(ArrayList<Entity> entityList) {
         this.entityList = entityList;
+    }
+
+
+    @Override
+    public List<Vector2D> getBestPath()
+    {
+        var bestPath = entityFirstInGoal.getPath();
+        return (bestPath);
     }
 
 

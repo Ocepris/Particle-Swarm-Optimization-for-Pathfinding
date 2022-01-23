@@ -3,12 +3,13 @@ package Evolution;
 import PSO.simulation.EnvironmentController;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Population implements updatable
 {
@@ -18,6 +19,8 @@ public class Population implements updatable
 	static float minSteps=600;
 	boolean fastforward = false;
 	static BufferedImage img;
+	private Dot bestDot = null;
+	private Random rnd;
 	public Population(int size, EnvironmentController environmentController)
 	{
 		try {
@@ -59,9 +62,13 @@ public class Population implements updatable
 
 	public void calcFitness()
 	{
+		bestDot = dots[0];
+
 		for(Dot d : dots)
 		{
 			d.calcFitness();
+			if(d.fitness > bestDot.fitness)
+				bestDot = d;
 		}
 	}
 
@@ -82,7 +89,7 @@ public class Population implements updatable
 		Dot best=dots[0];
 		for(int i=0;i<newDots.length;i++)
 		{
-			Dot parent = SelectParent(fs);
+			Dot parent = SelectParent();
 			newDots[i] = parent.createBaby();
 			if(dots[i].fitness>best.fitness)
 				best = dots[i];
@@ -105,7 +112,7 @@ public class Population implements updatable
 		for(int i = 0; i < dots.length; i++)
 		{
 			
-			dots[i].brain.mutate(dots[(int)(rnd.nextFloat()*dots.length)]);
+			dots[i].brain.mutate();
 		}
 	}
 
@@ -119,24 +126,21 @@ public class Population implements updatable
 		return fitnessSum;
 	}
 
-	public Dot SelectParent(float FitnessSum)
+	public Dot SelectParent()
 	{
-		Random rnd = new Random();
-		float rand = rnd.nextFloat() * FitnessSum;
-		float runningSum = 0;
-		for(Dot d:dots)
-		{
-			runningSum += d.fitness;
-			if(runningSum > rand)
-			{
-				return d;
-			}
-		}
+		int i1 = ThreadLocalRandom.current().nextInt(dots.length);
+		int i2 = ThreadLocalRandom.current().nextInt(dots.length);
 
-		// Should never Happen but why not
-		System.out.println("DANGER!!");
-		return new Dot(null);
+		Dot d1 = dots[i1];
+		Dot d2 = dots[i2];
+
+		if(d1.fitness > d2.fitness)
+			return d1;
+		else
+			return d2;
 
 	}
+
+	public Dot getBestDot(){return bestDot;}
 
 }
