@@ -1,5 +1,8 @@
 package PSO.simulation;
 
+import AStar.AStarGrid;
+import AStar.AStarNode;
+import AStar.NodeState;
 import Evolution.Game;
 import IntersectionTester.PathOptimizer;
 import PSO.math.Vector2D;
@@ -142,13 +145,35 @@ public class Simulation implements KeyListener, Runnable
 			List<Vector2D> bestPath = entityController.getBestPath();
 			envRenderer.setPath(bestPath);
 
-//			ArrayList<Vector2D> path = new ArrayList<>();
-//			path.add(new Vector2D(150,150));
-//			path.add(new Vector2D(150,300));
-//			path.add(new Vector2D(200,200));
-//			path.add(new Vector2D(200,150));
-//			path.add(new Vector2D(100,200));
-//			envRenderer.setPath(path);
+		}
+		else if(e.getKeyChar() == 'a')
+		{
+			long t1 = System.currentTimeMillis();
+			Map2D map = envController.getMap();
+			int width = map.getSizeX() * Simulation.BLOCKSIZE;
+			int height = map.getSizeY()* Simulation.BLOCKSIZE;
+			AStarGrid aStarGrid = new AStarGrid(width,height);
+			for(int i = 0; i < width; i++)
+				for(int j = 0; j < height; j++)
+				{
+					int val = map.getValueOf(i / Simulation.BLOCKSIZE,j / Simulation.BLOCKSIZE);
+					if(val == Map2D.BORDER)
+						aStarGrid.setNodeState(i,j, NodeState.NOT_WALKABLE);
+				}
+
+			int startX = (int) map.getStart().getX();
+			int startY = (int) map.getStart().getY();
+			int goalX = (int) map.getGoal().getX();
+			int goalY = (int) map.getGoal().getY();
+
+			List<AStarNode> nodes = aStarGrid.getPath(startX,startY,goalX,goalY);
+
+			ArrayList<Vector2D> path = new ArrayList<>();
+			for (AStarNode node : nodes) {
+				path.add(new Vector2D(node.getX(), node.getY()));
+			}
+
+			envRenderer.setPath(path);
 		}
 
 	}
