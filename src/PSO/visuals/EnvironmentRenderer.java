@@ -7,13 +7,13 @@ import PSO.simulation.Map2D;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Logger;
 
 public class EnvironmentRenderer implements Renderer{
     private EnvironmentController envController;
     private int blockSize;
     private List<Vector2D> path;
+    private List<Vector2D> bestPath;
     private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public EnvironmentRenderer(){
@@ -44,9 +44,9 @@ public class EnvironmentRenderer implements Renderer{
         }
     }
 
-    private void drawPath(Graphics g)
+    private void drawPath(Graphics g, List<Vector2D> path, Color color)
     {
-        g.setColor(Color.RED);
+        g.setColor(color);
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(5));
         if(path == null)
@@ -101,7 +101,8 @@ public class EnvironmentRenderer implements Renderer{
             g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
         }
 
-        drawPath(g);
+        drawPath(g,bestPath,Color.blue);
+        drawPath(g,path,Color.RED);
     }
 
     public void drawCenteredCircle(Graphics g, int x, int y, int r) {
@@ -120,5 +121,9 @@ public class EnvironmentRenderer implements Renderer{
 
     public void setPath(List<Vector2D> path) {
         this.path = path;
+    }
+
+    public void setBestPath(List<Vector2D> bestPath) {
+        this.bestPath = bestPath;
     }
 }

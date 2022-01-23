@@ -148,32 +148,40 @@ public class Simulation implements KeyListener, Runnable
 		}
 		else if(e.getKeyChar() == 'a')
 		{
-			long t1 = System.currentTimeMillis();
-			Map2D map = envController.getMap();
-			int width = map.getSizeX() * Simulation.BLOCKSIZE;
-			int height = map.getSizeY()* Simulation.BLOCKSIZE;
-			AStarGrid aStarGrid = new AStarGrid(width,height);
-			for(int i = 0; i < width; i++)
-				for(int j = 0; j < height; j++)
-				{
-					int val = map.getValueOf(i / Simulation.BLOCKSIZE,j / Simulation.BLOCKSIZE);
-					if(val == Map2D.BORDER)
-						aStarGrid.setNodeState(i,j, NodeState.NOT_WALKABLE);
+			Runnable run = () -> {
+
+				Map2D map = envController.getMap();
+				int width = map.getSizeX() * Simulation.BLOCKSIZE;
+				int height = map.getSizeY()* Simulation.BLOCKSIZE;
+				AStarGrid aStarGrid = new AStarGrid(width,height);
+				for(int i = 0; i < width; i++)
+					for(int j = 0; j < height; j++)
+					{
+						int val = map.getValueOf(i / Simulation.BLOCKSIZE,j / Simulation.BLOCKSIZE);
+						if(val == Map2D.BORDER)
+							aStarGrid.setNodeState(i,j, NodeState.NOT_WALKABLE);
+					}
+
+				int startX = (int) map.getStart().getX();
+				int startY = (int) map.getStart().getY();
+				int goalX = (int) map.getGoal().getX();
+				int goalY = (int) map.getGoal().getY();
+
+				List<AStarNode> nodes = aStarGrid.getPath(startX,startY,goalX,goalY);
+
+				ArrayList<Vector2D> path = new ArrayList<>();
+				for (AStarNode node : nodes) {
+					path.add(new Vector2D(node.getX(), node.getY()));
 				}
 
-			int startX = (int) map.getStart().getX();
-			int startY = (int) map.getStart().getY();
-			int goalX = (int) map.getGoal().getX();
-			int goalY = (int) map.getGoal().getY();
+				envRenderer.setBestPath(path);
 
-			List<AStarNode> nodes = aStarGrid.getPath(startX,startY,goalX,goalY);
 
-			ArrayList<Vector2D> path = new ArrayList<>();
-			for (AStarNode node : nodes) {
-				path.add(new Vector2D(node.getX(), node.getY()));
-			}
+			};
 
-			envRenderer.setPath(path);
+			Thread thread = new Thread(run);
+			thread.start();
+
 		}
 
 	}
