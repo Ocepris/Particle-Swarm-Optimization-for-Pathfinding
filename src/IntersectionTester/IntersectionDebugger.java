@@ -12,7 +12,7 @@ public class IntersectionDebugger extends JFrame {
 
     public IntersectionDebugger()
     {
-        this.setTitle("Map Generator");
+        this.setTitle("Intersection Debugger");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.lightGray);
         DrawPanel drawPanel = new DrawPanel();

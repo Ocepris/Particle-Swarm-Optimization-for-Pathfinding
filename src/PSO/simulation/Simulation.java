@@ -81,7 +81,7 @@ public class Simulation implements KeyListener, Runnable
 
 	public void initMap()
 	{
-		String mapPath = "res/test_map.csv";
+		String mapPath = "res/circle_map.csv";
 		sc.setValue("map_name", mapPath);
 		envController = new EnvironmentController(BLOCKSIZE);
 		envController.loadMapFromCSVFile(mapPath);
