@@ -82,7 +82,7 @@ public class Simulation implements KeyListener, Runnable
 
 	public void initMap()
 	{
-		String mapPath = "res/local_opt.csv";
+		String mapPath = "res/test_map.csv";
 		sc.setValue("map_name", mapPath);
 		envController = new EnvironmentController(BLOCKSIZE);
 		envController.loadMapFromCSVFile(mapPath);
@@ -156,6 +156,8 @@ public class Simulation implements KeyListener, Runnable
 		{
 			Runnable run = () -> {
 
+				long t1 = System.currentTimeMillis();
+
 				Map2D map = envController.getMap();
 				int width = map.getSizeX() * Simulation.BLOCKSIZE;
 				int height = map.getSizeY()* Simulation.BLOCKSIZE;
@@ -180,13 +182,16 @@ public class Simulation implements KeyListener, Runnable
 					path.add(new Vector2D(node.getX(), node.getY()));
 				}
 
+				long t2 = System.currentTimeMillis();
+				System.out.println("A* avg time: "+(t2-t1));
+
 				envRenderer.setBestPath(path);
 
 
 			};
 
-
 			Thread thread = new Thread(run);
+
 			thread.start();
 
 		}

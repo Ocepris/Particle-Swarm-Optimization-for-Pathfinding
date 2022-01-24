@@ -49,7 +49,7 @@ public class AStarLogic {
 
                 if (!closed.contains(neighbor)) {
                     if (open.contains(neighbor)) {
-                        int newG = current.getGCost() + 10;
+                        int newG = current.getGCost() + getCost(current,neighbor);
 
                         if (newG < neighbor.getGCost()) {
                             neighbor.setParent(current);
@@ -57,7 +57,7 @@ public class AStarLogic {
                         }
                     } else {
                         neighbor.setParent(current);
-                        neighbor.setGCost(current.getGCost() + 10);
+                        neighbor.setGCost(current.getGCost() + getCost(current,neighbor));
                         open.add(neighbor);
                     }
                 }
@@ -77,6 +77,14 @@ public class AStarLogic {
         }
 
         return buildPath(start, target);
+    }
+
+    private int getCost(AStarNode a, AStarNode b)
+    {
+        if(a.getX() != b.getX() && a.getY() != b.getY())
+            return 14;
+        else
+            return 10;
     }
 
     private List<AStarNode> buildPath(AStarNode start, AStarNode target) {
