@@ -15,6 +15,7 @@ public class Entity {
     private Vector2D direction;
     private int ticksSinceLastImprovement = 0;
     private List<Vector2D> path = new ArrayList<>();
+    public boolean inGoal = false;
 
     private double distance = 4;
     private Vector2D personalBest;

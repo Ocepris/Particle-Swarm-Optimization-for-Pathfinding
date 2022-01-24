@@ -1,5 +1,6 @@
 package PSO.simulation;
 
+import IntersectionTester.PathOptimizer;
 import PSO.entities.Entity;
 import PSO.math.Vector2D;
 
@@ -12,6 +13,7 @@ public class EntityController implements IEntityController {
     private Map2D map2D;
     public static Vector2D GLOBAL_BEST;
     private Entity entityFirstInGoal = null;
+    private ArrayList<Entity> entitiesInGoal = new ArrayList();
 
     public EntityController(EnvironmentController envController){
         this.envController = envController;
@@ -20,6 +22,7 @@ public class EntityController implements IEntityController {
 
     public void createEntities(int amount)
     {
+        entitiesInGoal.clear();
         double x = map2D.getStart().getX();
         double y =  map2D.getStart().getY();
 
@@ -43,6 +46,8 @@ public class EntityController implements IEntityController {
         }
     }
 
+
+
     public void update()
     {
         double bestDistance = GLOBAL_BEST.getDistance(map2D.getGoal());
@@ -52,6 +57,11 @@ public class EntityController implements IEntityController {
 
             if(entity.getPosition().getDistance(map2D.getGoal()) < 5.2f)
             {
+                if(entity.inGoal)
+                    continue;
+
+                entity.inGoal = true;
+                entitiesInGoal.add(entity);
                 if(entityFirstInGoal == null)
                     entityFirstInGoal = entity;
 
@@ -91,6 +101,7 @@ public class EntityController implements IEntityController {
 
     public void setEntityList(ArrayList<Entity> entityList) {
         this.entityList = entityList;
+        entitiesInGoal.clear();
     }
 
 
@@ -98,8 +109,32 @@ public class EntityController implements IEntityController {
     public List<Vector2D> getBestPath()
     {
         var bestPath = entityFirstInGoal.getPath();
+        PathOptimizer pathOptimizer = new PathOptimizer();
+        double minDist = Double.MAX_VALUE;
+        for (Entity e: entitiesInGoal) {
+            List<Vector2D> path = e.getPath();
+            double dist = pathDistance(pathOptimizer.optimizePath(path));
+            if(dist < minDist)
+            {
+                minDist = dist;
+                bestPath = path;
+            }
+        }
+
         return (bestPath);
     }
 
+    private double pathDistance(List<Vector2D> path)
+    {
+        double dist = 0;
+        for(int i = 1; i < path.size(); i++)
+        {
+            Vector2D pos1 = path.get(i-1);
+            Vector2D pos2 = path.get(i);
+            dist += pos1.getDistance(pos2);
+        }
+
+        return dist;
+    }
 
 }
