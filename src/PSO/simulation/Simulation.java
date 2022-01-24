@@ -179,9 +179,21 @@ public class Simulation implements KeyListener, Runnable
 
 			};
 
+
 			Thread thread = new Thread(run);
 			thread.start();
 
+		}
+
+		if(e.getKeyChar() =='p')
+		{
+			Simulation.maxLoopTime = 1000/60;
+			Simulation.fastforward = false;
+		}
+		else if(e.getKeyChar() =='f')
+		{
+			Simulation.maxLoopTime = 1000/500000;
+			Simulation.fastforward = true;
 		}
 
 	}
