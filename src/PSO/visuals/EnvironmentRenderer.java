@@ -46,11 +46,16 @@ public class EnvironmentRenderer implements Renderer{
 
     private void drawPath(Graphics g, List<Vector2D> path, Color color)
     {
+        if(path == null)
+        {
+            return;
+        }
+
         g.setColor(color);
         Graphics2D g2 = (Graphics2D) g;
+        var oldStroke = g2.getStroke();
         g2.setStroke(new BasicStroke(5));
-        if(path == null)
-            return;
+
 
         Vector2D startPos = null;
         for (int i = 0; i < path.size(); i++)
@@ -65,7 +70,7 @@ public class EnvironmentRenderer implements Renderer{
             startPos = pos;
         }
 
-        g2.setStroke(new BasicStroke(1));
+        g2.setStroke(oldStroke);
     }
 
     private void drawMap(Graphics g){
