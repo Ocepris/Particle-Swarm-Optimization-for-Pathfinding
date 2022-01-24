@@ -20,9 +20,8 @@ public class EntityController implements IEntityController {
 
     public void createEntities(int amount)
     {
-        int offset = Simulation.BLOCKSIZE /2;
-        double x = map2D.getStart().getX() + offset;
-        double y =  map2D.getStart().getY() + offset;
+        double x = map2D.getStart().getX();
+        double y =  map2D.getStart().getY();
 
         Vector2D startPos = new Vector2D(x,y);
         GLOBAL_BEST = startPos;
