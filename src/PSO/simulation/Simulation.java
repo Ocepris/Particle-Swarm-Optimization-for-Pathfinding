@@ -126,12 +126,16 @@ public class Simulation implements KeyListener, Runnable
 			running = false;
 			clearSimulation();
 			initEvo();
+			running = true;
+			diasableUpdate = true;
 		}
 		else if(e.getKeyChar() == '1')
 		{
 			running = false;
 			clearSimulation();
 			initPSO();
+			running = true;
+			diasableUpdate = true;
 		}
 		else if(e.getKeyChar() == 'o')
 		{
