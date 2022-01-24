@@ -24,7 +24,8 @@ public class Simulation implements KeyListener, Runnable
 	public final static int BLOCKSIZE = 50;
 	public static int FPS = 60;
 	public static long maxLoopTime = 1000 / FPS;
-	public boolean running = false;
+	public boolean running = true;
+	public boolean diasableUpdate = true;
 	public static boolean fastforward = false;
 
 	private IEntityController entityController;
@@ -145,7 +146,7 @@ public class Simulation implements KeyListener, Runnable
 
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			this.running = !running;
+			this.diasableUpdate = !diasableUpdate;
 		}
 		else if(e.getKeyChar() == 'a')
 		{
@@ -334,7 +335,8 @@ public class Simulation implements KeyListener, Runnable
 			}
 
 			oldTimestamp = System.currentTimeMillis();
-			update();
+			if(!diasableUpdate)
+				update();
 			timestamp = System.currentTimeMillis();
 			if(timestamp - oldTimestamp > maxLoopTime)
 				continue;
