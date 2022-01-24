@@ -16,7 +16,7 @@ public class Entity {
     private int ticksSinceLastImprovement = 0;
     private List<Vector2D> path = new ArrayList<>();
 
-    private double distance = 8;
+    private double distance = 4;
     private Vector2D personalBest;
 
 
@@ -25,7 +25,6 @@ public class Entity {
         this.position = new Vector2D(startPos.getX(), startPos.getY());
         this.personalBest = startPos;
         this.direction = new Vector2D(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
-
     }
 
     boolean oneDirection = false;
@@ -38,8 +37,8 @@ public class Entity {
 
         //Random distance
         dir.mult(3 * Math.random());
-        pBest.mult(2 * Math.random());
-        gBest.mult(2 * Math.random());
+        pBest.mult(0.5 * Math.random());
+        gBest.mult(0.5 * Math.random());
 
         if(ticksSinceLastImprovement > 100)
             gBest.mult(0);

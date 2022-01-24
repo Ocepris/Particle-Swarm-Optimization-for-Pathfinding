@@ -29,6 +29,19 @@ public class EntityController implements IEntityController {
         for(int i = 0; i < amount; i++)
             entityList.add(new Entity(startPos));
     }
+    public void createEntityGrid(){
+        int offset = Simulation.BLOCKSIZE /2;
+        int amountX = map2D.getSizeX() - 2;
+        int amountY = map2D.getSizeY() - 2;
+
+        GLOBAL_BEST = new Vector2D(0, 0);
+
+        for(int x=1; x<=amountX; x++){
+            for(int y=1; y<=amountY; y++){
+                entityList.add(new Entity(new Vector2D(x*Simulation.BLOCKSIZE + offset, y*Simulation.BLOCKSIZE + offset)));
+            }
+        }
+    }
 
     public void update()
     {

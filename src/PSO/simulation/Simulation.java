@@ -24,7 +24,7 @@ public class Simulation implements KeyListener, Runnable
 	public final static int BLOCKSIZE = 50;
 	public static int FPS = 60;
 	public static long maxLoopTime = 1000 / FPS;
-	public boolean running = true;
+	public boolean running = false;
 	public static boolean fastforward = false;
 
 	private IEntityController entityController;
@@ -66,7 +66,7 @@ public class Simulation implements KeyListener, Runnable
 		EntityController ec = new EntityController(envController);
 		entityController = ec;
 		EntityRenderer entityRenderer = new EntityRenderer(null, ec);
-		ec.createEntities(300);
+		ec.createEntities(100);
 
 		StatsRenderer sr = new StatsRenderer(sc, (envController.getMap().getSizeX()*BLOCKSIZE) + 20);
 		rc.addRenderer(sr);
@@ -81,7 +81,7 @@ public class Simulation implements KeyListener, Runnable
 
 	public void initMap()
 	{
-		String mapPath = "res/circle_map.csv";
+		String mapPath = "res/local_opt.csv";
 		sc.setValue("map_name", mapPath);
 		envController = new EnvironmentController(BLOCKSIZE);
 		envController.loadMapFromCSVFile(mapPath);
@@ -125,14 +125,12 @@ public class Simulation implements KeyListener, Runnable
 			running = false;
 			clearSimulation();
 			initEvo();
-			running = true;
 		}
 		else if(e.getKeyChar() == '1')
 		{
 			running = false;
 			clearSimulation();
 			initPSO();
-			running = true;
 		}
 		else if(e.getKeyChar() == 'o')
 		{
@@ -145,6 +143,9 @@ public class Simulation implements KeyListener, Runnable
 			List<Vector2D> bestPath = entityController.getBestPath();
 			envRenderer.setPath(bestPath);
 
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			this.running = !running;
 		}
 		else if(e.getKeyChar() == 'a')
 		{

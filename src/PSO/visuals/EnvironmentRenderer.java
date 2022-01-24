@@ -81,7 +81,7 @@ public class EnvironmentRenderer implements Renderer{
                 if(blockType == Map2D.BORDER){
                     g.setColor(Color.BLACK);
                 }else if(blockType == Map2D.GOAL){
-                    g.setColor(Color.orange);
+                    g.setColor(Color.GREEN);
                 }else if(blockType == Map2D.START){
                     g.setColor(Color.BLUE);
                 }else{
@@ -98,12 +98,12 @@ public class EnvironmentRenderer implements Renderer{
         {
             int x =(int) EntityController.GLOBAL_BEST.getX()/blockSize;
             int y =(int) EntityController.GLOBAL_BEST.getY()/blockSize;
-            g.setColor(Color.RED);
+//            g.setColor(Color.RED);
 
 
-            g.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
-            g.setColor(Color.GRAY);
-            g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
+//            g.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
+//            g.setColor(Color.GRAY);
+//            g.drawRect(x*blockSize, y*blockSize, blockSize, blockSize);
         }
 
         drawPath(g,bestPath,Color.blue);
