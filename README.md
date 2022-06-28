@@ -11,7 +11,7 @@ We created a 2d environment with different blocks to test our approach. Black bl
 
 The strength of the PSO algorithm comes from the distribution of the particles in the space. Due to the nature of Pathfinding problems we had to define a fixed start point which was a huge problem as the particles now got stuck in local optima.
 
-##Solutions
+## Solutions
 
 Our solution was it to disable the swarm properties of the particles to random search if they didnt improve their personal best position after a certain amount of time. 
 
