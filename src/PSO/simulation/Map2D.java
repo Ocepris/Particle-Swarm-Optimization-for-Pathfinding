@@ -23,18 +23,18 @@ public class Map2D {
 
     private void calculateStartAndGoal()
     {
-        Vector2D offset = new Vector2D(Simulation.BLOCKSIZE/2,Simulation.BLOCKSIZE/2);
+        Vector2D offset = new Vector2D(Simulation.BLOCK_SIZE /2,Simulation.BLOCK_SIZE /2);
         for(int y = 0; y < intArray.length; y++)
             for(int x = 0; x < intArray[y].length; x++)
             {
                 if(intArray[y][x] == GOAL)
                 {
-                    goal = new Vector2D(x,y).mult(Simulation.BLOCKSIZE).add(offset);
+                    goal = new Vector2D(x,y).mult(Simulation.BLOCK_SIZE).add(offset);
 
                 }
                 else if(intArray[y][x] == START)
                 {
-                    start = new Vector2D(x,y).mult(Simulation.BLOCKSIZE).add(offset);
+                    start = new Vector2D(x,y).mult(Simulation.BLOCK_SIZE).add(offset);
                     globalBestPosition = start.clone();
                 }
             }
@@ -47,7 +47,7 @@ public class Map2D {
     public int getValueOf(int x, int y){ return this.intArray[y][x]; }
     public int getBlockAtCoordinates(double x, double y)
     {
-        return getValueOf((int) x / Simulation.BLOCKSIZE, (int) y / Simulation.BLOCKSIZE);
+        return getValueOf((int) x / Simulation.BLOCK_SIZE, (int) y / Simulation.BLOCK_SIZE);
     }
 
     public int getSizeX(){ return intArray[0].length; }

@@ -125,5 +125,5 @@ public class Entity {
         ticksSinceLastImprovement = 0;
     }
 
-    public List<Vector2D> getPath(){return path;};
+    public List<Vector2D> getPath(){return path;}
 }

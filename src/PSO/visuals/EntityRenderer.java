@@ -1,17 +1,17 @@
 package PSO.visuals;
 
 import PSO.entities.Entity;
-import PSO.simulation.EntityController;
+import PSO.simulation.IEntityController;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class EntityRenderer implements Renderer{
     private Frame frame;
-    private EntityController entityController;
+    private IEntityController entityController;
 
 
-    public EntityRenderer(Frame frame, EntityController entityController)
+    public EntityRenderer(Frame frame, IEntityController entityController)
     {
         this.frame = frame;
         this.entityController = entityController;
@@ -20,7 +20,7 @@ public class EntityRenderer implements Renderer{
 
     @Override
     public void render(Graphics g) {
-        ArrayList<Entity> entities = entityController.getEntityList();
+        List<Entity> entities = entityController.getEntityList();
         if(entities == null || entities.size() == 0)
             return;
 

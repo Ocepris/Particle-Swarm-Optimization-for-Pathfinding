@@ -26,7 +26,7 @@ public class MapGenerator extends JFrame implements KeyListener {
     {
         this.setTitle("Map Generator");
         inputSize();
-        setSize((WIDTH + 1) * Simulation.BLOCKSIZE, (HEIGHT + 1) * Simulation.BLOCKSIZE);
+        setSize((WIDTH + 1) * Simulation.BLOCK_SIZE, (HEIGHT + 1) * Simulation.BLOCK_SIZE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.lightGray);
         mapArray = new int[HEIGHT][WIDTH];

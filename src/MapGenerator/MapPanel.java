@@ -37,9 +37,9 @@ public class MapPanel extends JPanel implements MouseListener {
                     g.setColor(Color.white);
                 }
 
-                g.fillRect(x* Simulation.BLOCKSIZE, y*Simulation.BLOCKSIZE, Simulation.BLOCKSIZE, Simulation.BLOCKSIZE);
+                g.fillRect(x* Simulation.BLOCK_SIZE, y*Simulation.BLOCK_SIZE, Simulation.BLOCK_SIZE, Simulation.BLOCK_SIZE);
                 g.setColor(Color.GRAY);
-                g.drawRect(x*Simulation.BLOCKSIZE, y*Simulation.BLOCKSIZE, Simulation.BLOCKSIZE, Simulation.BLOCKSIZE);
+                g.drawRect(x*Simulation.BLOCK_SIZE, y*Simulation.BLOCK_SIZE, Simulation.BLOCK_SIZE, Simulation.BLOCK_SIZE);
             }
         }
 
@@ -66,8 +66,8 @@ public class MapPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        int xPos = e.getX() / Simulation.BLOCKSIZE;
-        int yPos = e.getY() / Simulation.BLOCKSIZE;
+        int xPos = e.getX() / Simulation.BLOCK_SIZE;
+        int yPos = e.getY() / Simulation.BLOCK_SIZE;
         int blockValue = mapArray[yPos][xPos];
         int newBlockValue = 0;
 

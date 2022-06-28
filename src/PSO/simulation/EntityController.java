@@ -31,13 +31,13 @@ public class EntityController implements IEntityController {
             entityList.add(new Entity(startPos, map2D));
     }
     public void createEntityGrid(){
-        int offset = Simulation.BLOCKSIZE /2;
+        int offset = Simulation.BLOCK_SIZE /2;
         int amountX = map2D.getSizeX() - 2;
         int amountY = map2D.getSizeY() - 2;
 
         for(int x=1; x<=amountX; x++){
             for(int y=1; y<=amountY; y++){
-                entityList.add(new Entity(new Vector2D(x*Simulation.BLOCKSIZE + offset, y*Simulation.BLOCKSIZE + offset),map2D));
+                entityList.add(new Entity(new Vector2D(x*Simulation.BLOCK_SIZE + offset, y*Simulation.BLOCK_SIZE + offset),map2D));
             }
         }
     }
@@ -75,7 +75,7 @@ public class EntityController implements IEntityController {
 
 
             double distanceToGoal = entity.getPosition().getDistance(map2D.getGoal());
-            if(map2D.getValueOf((int)entity.getPosition().getX()/Simulation.BLOCKSIZE,(int)entity.getPosition().getY()/Simulation.BLOCKSIZE) == Map2D.BORDER)
+            if(map2D.getValueOf((int)entity.getPosition().getX()/Simulation.BLOCK_SIZE,(int)entity.getPosition().getY()/Simulation.BLOCK_SIZE) == Map2D.BORDER)
                 distanceToGoal = Double.MAX_VALUE;
 
             if(distanceToGoal < bestDistance)
