@@ -12,6 +12,7 @@ public class Map2D {
 
     private Vector2D start;
     private Vector2D goal;
+    private Vector2D globalBestPosition;
 
 
     public Map2D(int[][] intArray){
@@ -32,7 +33,10 @@ public class Map2D {
 
                 }
                 else if(intArray[y][x] == START)
+                {
                     start = new Vector2D(x,y).mult(Simulation.BLOCKSIZE).add(offset);
+                    globalBestPosition = start.clone();
+                }
             }
     }
 
@@ -41,6 +45,10 @@ public class Map2D {
     public int[][] getValues(){ return this.intArray; }
 
     public int getValueOf(int x, int y){ return this.intArray[y][x]; }
+    public int getBlockAtCoordinates(double x, double y)
+    {
+        return getValueOf((int) x / Simulation.BLOCKSIZE, (int) y / Simulation.BLOCKSIZE);
+    }
 
     public int getSizeX(){ return intArray[0].length; }
     public int getSizeY(){ return intArray.length; }
@@ -51,5 +59,13 @@ public class Map2D {
 
     public Vector2D getGoal() {
         return goal;
+    }
+
+    public Vector2D getGlobalBest() {
+        return globalBestPosition;
+    }
+
+    public void setGlobalBestPosition(Vector2D globalBestPosition) {
+        this.globalBestPosition = globalBestPosition;
     }
 }

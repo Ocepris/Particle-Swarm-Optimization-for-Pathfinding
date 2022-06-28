@@ -1,9 +1,7 @@
 package PSO.entities;
 
 import PSO.math.Vector2D;
-import PSO.simulation.EntityController;
 import PSO.simulation.Map2D;
-import PSO.simulation.Simulation;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,36 +9,45 @@ import java.util.List;
 
 public class Entity {
 
-    private Vector2D position;
-    private Vector2D direction;
+    private final Vector2D position;
+    private final Vector2D direction;
+    private final Vector2D dir = new Vector2D();
+    private final Vector2D pBest = new Vector2D();
+    private final Vector2D gBest = new Vector2D();
+
+    private final Map2D map;
     private int ticksSinceLastImprovement = 0;
-    private List<Vector2D> path = new ArrayList<>();
+    private final List<Vector2D> path = new ArrayList<>();
     public boolean inGoal = false;
 
-    private double distance = 4;
+    private final double distance = 4;
     private Vector2D personalBest;
 
 
-    public Entity(Vector2D startPos)
+    public Entity(Vector2D startPos, Map2D map)
     {
         this.position = new Vector2D(startPos.getX(), startPos.getY());
         this.personalBest = startPos;
+        this.map = map;
+
+        //Random start direction
         this.direction = new Vector2D(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
     }
 
     boolean oneDirection = false;
-    public void move(Map2D map){
+    public void move(){
 
         //Calculate direction for Vectors to move into
-        Vector2D dir = new Vector2D(direction.getX(),direction.getY()).normalize().mult(distance);
-        Vector2D pBest = new Vector2D(personalBest.getX() - position.getX(), personalBest.getY() - position.getY()).normalize().mult(distance);
-        Vector2D gBest = new Vector2D(EntityController.GLOBAL_BEST.getX() - position.getX(), EntityController.GLOBAL_BEST.getY() - position.getY()).normalize().mult(distance);
+        dir.setValues(direction.getX(), direction.getY()).normalize().mult(distance);
+        pBest.setValues(personalBest.getX() - position.getX(), personalBest.getY() - position.getY()).normalize().mult(distance);
+        gBest.setValues(map.getGlobalBest().getX() - position.getX(), map.getGlobalBest().getY() - position.getY()).normalize().mult(distance);
 
-        //Random distance
+        //Randomize distance
         dir.mult(3 * Math.random());
         pBest.mult(0.5 * Math.random());
         gBest.mult(0.5 * Math.random());
 
+        //Ignores the Swarm intelligence after x interations without improvement and starts a pure random search until it improves its personal best
         if(ticksSinceLastImprovement > 100)
             gBest.mult(0);
         if(ticksSinceLastImprovement > 300)
@@ -48,6 +55,13 @@ public class Entity {
         oneDirection = ticksSinceLastImprovement > 310;
 
 
+        updatePosition();
+
+        ticksSinceLastImprovement++;
+
+    }
+
+    private void updatePosition() {
         //Update Position and direction Vector
         double oldX = position.getX();
         double oldY = position.getY();
@@ -56,39 +70,51 @@ public class Entity {
         direction.setX(position.getX() - oldX);
         direction.setY(position.getY() - oldY);
 
-        if(map.getValueOf((int) position.getX()/ Simulation.BLOCKSIZE,(int) position.getY()/ Simulation.BLOCKSIZE) == Map2D.BORDER)
+        if(!isPositionValid())
         {
-            this.position.setX(oldX);
-            this.position.setY(oldY);
-            this.direction = new Vector2D(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
-            if(oneDirection)
-                path.add(position.clone());
+            resetPosition(oldX, oldY);
+            return;
         }
-        else if(!oneDirection)
+
+        if(!oneDirection)
             path.add(position.clone());
-
-        ticksSinceLastImprovement++;
-
     }
 
+    private void resetPosition(double oldX, double oldY) {
+        this.position.setX(oldX);
+        this.position.setY(oldY);
+        this.direction.setValues(Math.random() -0.5f, Math.random() -0.5f).mult(distance);
+        if(oneDirection)
+            path.add(position.clone());
+    }
+
+    private boolean isPositionValid()
+    {
+        return !(map.getBlockAtCoordinates(position.getX(),position.getY()) == Map2D.BORDER);
+    }
+
+    
     public void draw(Graphics g){
         Vector2D pos = this.getPosition();
         int x = (int) pos.getX();
         int y = (int) pos.getY();
-        int r = 10;
-        x = x-(r/2);
-        y = y-(r/2);
+        int radius = 10;
+        drawCircle(g, x, y, radius);
+
+    }
+    
+    private void drawCircle(Graphics g, int x, int y, int radius)
+    {
+        x = x-(radius/2);
+        y = y-(radius/2);
+        
         g.setColor(Color.BLUE);
-        g.fillOval(x,y,r,r);
+        g.fillOval(x,y,radius,radius);
         g.setColor(Color.black);
-        g.drawOval(x,y,r,r);
+        g.drawOval(x,y,radius,radius);
     }
 
     public Vector2D getPosition(){return position;}
-
-    public void jump(){
-
-    }
 
     public Vector2D getPersonalBest() {
         return personalBest;

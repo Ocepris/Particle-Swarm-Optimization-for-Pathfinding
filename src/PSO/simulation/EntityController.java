@@ -11,7 +11,6 @@ public class EntityController implements IEntityController {
     private ArrayList<Entity> entityList = new ArrayList<>();
     private EnvironmentController envController;
     private Map2D map2D;
-    public static Vector2D GLOBAL_BEST;
     private Entity entityFirstInGoal = null;
     private ArrayList<Entity> entitiesInGoal = new ArrayList();
 
@@ -27,21 +26,18 @@ public class EntityController implements IEntityController {
         double y =  map2D.getStart().getY();
 
         Vector2D startPos = new Vector2D(x,y);
-        GLOBAL_BEST = startPos;
 
         for(int i = 0; i < amount; i++)
-            entityList.add(new Entity(startPos));
+            entityList.add(new Entity(startPos, map2D));
     }
     public void createEntityGrid(){
         int offset = Simulation.BLOCKSIZE /2;
         int amountX = map2D.getSizeX() - 2;
         int amountY = map2D.getSizeY() - 2;
 
-        GLOBAL_BEST = new Vector2D(0, 0);
-
         for(int x=1; x<=amountX; x++){
             for(int y=1; y<=amountY; y++){
-                entityList.add(new Entity(new Vector2D(x*Simulation.BLOCKSIZE + offset, y*Simulation.BLOCKSIZE + offset)));
+                entityList.add(new Entity(new Vector2D(x*Simulation.BLOCKSIZE + offset, y*Simulation.BLOCKSIZE + offset),map2D));
             }
         }
     }
@@ -50,7 +46,7 @@ public class EntityController implements IEntityController {
 
     public void update()
     {
-        double bestDistance = GLOBAL_BEST.getDistance(map2D.getGoal());
+        double bestDistance = map2D.getGlobalBest().getDistance(map2D.getGoal());
         double worstDistance = Double.MIN_VALUE;
 
         for (Entity entity: entityList) {
@@ -69,7 +65,7 @@ public class EntityController implements IEntityController {
 
             }
 
-            entity.move(map2D);
+            entity.move();
 
 
             double personalBestDistance = entity.getPersonalBest().getDistance(map2D.getGoal());
@@ -85,7 +81,7 @@ public class EntityController implements IEntityController {
             if(distanceToGoal < bestDistance)
             {
                 bestDistance = distanceToGoal;
-                GLOBAL_BEST = entity.getPosition().clone();
+                map2D.setGlobalBestPosition(entity.getPosition().clone());
             }
 
             if(distanceToGoal < personalBestDistance)
@@ -108,6 +104,9 @@ public class EntityController implements IEntityController {
     @Override
     public List<Vector2D> getBestPath()
     {
+        if(entityFirstInGoal == null)
+            throw new NullPointerException();
+
         var bestPath = entityFirstInGoal.getPath();
         PathOptimizer pathOptimizer = new PathOptimizer();
         double minDist = Double.MAX_VALUE;

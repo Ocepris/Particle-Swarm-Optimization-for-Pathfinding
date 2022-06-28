@@ -1,6 +1,5 @@
 package MapGenerator;
 
-import PSO.simulation.EntityController;
 import PSO.simulation.Map2D;
 import PSO.simulation.Simulation;
 
@@ -44,17 +43,6 @@ public class MapPanel extends JPanel implements MouseListener {
             }
         }
 
-        if(EntityController.GLOBAL_BEST != null)
-        {
-            int x =(int) EntityController.GLOBAL_BEST.getX()/Simulation.BLOCKSIZE;
-            int y =(int) EntityController.GLOBAL_BEST.getY()/Simulation.BLOCKSIZE;
-            g.setColor(Color.RED);
-
-
-            g.fillRect(x*Simulation.BLOCKSIZE, y*Simulation.BLOCKSIZE, Simulation.BLOCKSIZE, Simulation.BLOCKSIZE);
-            g.setColor(Color.GRAY);
-            g.drawRect(x*Simulation.BLOCKSIZE, y*Simulation.BLOCKSIZE, Simulation.BLOCKSIZE, Simulation.BLOCKSIZE);
-        }
     }
 
     @Override

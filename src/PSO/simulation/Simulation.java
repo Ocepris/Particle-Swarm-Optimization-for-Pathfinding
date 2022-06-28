@@ -96,7 +96,7 @@ public class Simulation implements KeyListener, Runnable
 
 	public void clearSimulation()
 	{
-		EntityController.GLOBAL_BEST = null;
+
 	}
 
 	@Override

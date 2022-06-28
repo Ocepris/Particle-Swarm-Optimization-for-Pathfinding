@@ -84,6 +84,13 @@ public class Vector2D {
         this.y = y;
     }
 
+    public Vector2D setValues(double x, double y)
+    {
+        this.setX(x);
+        this.setY(y);
+        return this;
+    }
+
     public Vector2D clone()
     {
         return new Vector2D(x,y);
