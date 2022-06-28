@@ -29,6 +29,7 @@ public class Simulation implements KeyListener, Runnable {
     private EnvironmentRenderer envRenderer;
     private final RenderController renderController;
     private final StatsContainer statsContainer = new StatsContainer("0.09", "");
+    private final Logger logger;
 
     private int iteration = 0;
     private Frame simulationFrame;
@@ -40,7 +41,7 @@ public class Simulation implements KeyListener, Runnable {
 
     public Simulation() {
         renderController = new RenderController();
-        Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+        logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
         logger.setLevel(Level.ALL);
         logger.info("Booting..");
 
@@ -57,7 +58,7 @@ public class Simulation implements KeyListener, Runnable {
         initMap();
 
         entityController = new EntityController(envController);
-        EntityRenderer entityRenderer = new EntityRenderer(null, entityController);
+        EntityRenderer entityRenderer = new EntityRenderer(entityController);
         entityController.createEntities(100);
 
         StatsRenderer statsRenderer = new StatsRenderer(statsContainer, (envController.getMap().getSizeX() * BLOCK_SIZE) + 20);
@@ -137,6 +138,8 @@ public class Simulation implements KeyListener, Runnable {
     }
 
     private void drawAStarPathToGoal() {
+
+        logger.info("Started A*");
         Runnable run = () -> {
             Map2D map = envController.getMap();
             int width = map.getSizeX() * Simulation.BLOCK_SIZE;
@@ -163,6 +166,8 @@ public class Simulation implements KeyListener, Runnable {
                 path.add(new Vector2D(node.getX(), node.getY()));
             }
             envRenderer.setBestPath(path);
+
+            logger.info("A* finished");
         };
 
         Thread thread = new Thread(run);

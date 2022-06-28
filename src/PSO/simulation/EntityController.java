@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityController implements IEntityController {
+    public static final float MIN_DISTANCE_TO_GOAL = 5.2f;
     private ArrayList<Entity> entityList = new ArrayList<>();
-    private EnvironmentController envController;
-    private Map2D map2D;
+    private final Map2D map2D;
     private Entity entityFirstInGoal = null;
-    private ArrayList<Entity> entitiesInGoal = new ArrayList();
+    private final ArrayList<Entity> entitiesInGoal = new ArrayList<>();
 
     public EntityController(EnvironmentController envController){
-        this.envController = envController;
         map2D = envController.getMap();
     }
 
@@ -30,19 +29,6 @@ public class EntityController implements IEntityController {
         for(int i = 0; i < amount; i++)
             entityList.add(new Entity(startPos, map2D));
     }
-    public void createEntityGrid(){
-        int offset = Simulation.BLOCK_SIZE /2;
-        int amountX = map2D.getSizeX() - 2;
-        int amountY = map2D.getSizeY() - 2;
-
-        for(int x=1; x<=amountX; x++){
-            for(int y=1; y<=amountY; y++){
-                entityList.add(new Entity(new Vector2D(x*Simulation.BLOCK_SIZE + offset, y*Simulation.BLOCK_SIZE + offset),map2D));
-            }
-        }
-    }
-
-
 
     public void update()
     {
@@ -51,7 +37,7 @@ public class EntityController implements IEntityController {
 
         for (Entity entity: entityList) {
 
-            if(entity.getPosition().getDistance(map2D.getGoal()) < 5.2f)
+            if(entity.getPosition().getDistance(map2D.getGoal()) < MIN_DISTANCE_TO_GOAL)
             {
                 if(entity.inGoal)
                     continue;

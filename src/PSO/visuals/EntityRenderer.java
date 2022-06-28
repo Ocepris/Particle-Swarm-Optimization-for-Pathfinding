@@ -7,15 +7,12 @@ import java.awt.*;
 import java.util.List;
 
 public class EntityRenderer implements Renderer{
-    private Frame frame;
     private IEntityController entityController;
 
 
-    public EntityRenderer(Frame frame, IEntityController entityController)
+    public EntityRenderer(IEntityController entityController)
     {
-        this.frame = frame;
         this.entityController = entityController;
-
     }
 
     @Override

@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Frame extends JPanel{
-    private JFrame frame;
+    private final JFrame frame;
     private RenderController rc;
 
     public Frame(int res_x, int res_y){
-        frame = new JFrame("Frame");
+        frame = new JFrame("Particle Swarm Optimization for Pathfinding");
         frame.setSize(res_x, res_y);
         frame.setVisible(true);
         frame.add(this);

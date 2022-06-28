@@ -1,7 +1,5 @@
 package PSO.simulation;
 
-import PSO.math.Vector2D;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,28 +11,13 @@ import java.util.stream.Stream;
 
 public class EnvironmentController {
     private Map2D map;
-    private int blockSize;
+    private final int blockSize;
     private boolean mapLoaded = false;
 
-    private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public EnvironmentController(Map2D map2d, int blockSize){
-        this.map = map2d;
-        this.blockSize = blockSize;
-    }
     public EnvironmentController(int blockSize){
         this.blockSize = blockSize;
-    }
-
-    public int getBlockTypeOfPosition(Vector2D position){
-        //get coordinates
-        int mapPositionX = ((int) position.getX()) / this.blockSize;
-        int mapPositionY = ((int) position.getY()) / this.blockSize;
-        if(mapPositionX < this.map.getSizeX() && mapPositionY < this.map.getSizeY()){
-            return this.map.getValueOf(mapPositionX, mapPositionY);
-        }else{
-            return -1;
-        }
     }
 
     public void loadMapFromCSVFile(String path){
@@ -68,10 +51,6 @@ public class EnvironmentController {
         } catch (IOException ioe){
             ioe.printStackTrace();
         }
-    }
-
-    public void setMap(Map2D map){
-        this.map = map;
     }
 
     public Map2D getMap() {
