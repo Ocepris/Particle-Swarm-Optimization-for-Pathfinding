@@ -13,7 +13,7 @@ The strength of the PSO algorithm comes from the distribution of the particles i
 
 ## Solutions
 
-Our solution was it to disable the swarm properties of the particles to random search if they didnt improve their personal best position after a certain amount of time. 
+To solve this problem we decided to disable the swarm properties of the particles to random search if they didn't improve their personal best position after a certain amount of time. 
 
 Now the particles were able to find the goal, but the found path was quite chaotic.
 
