@@ -1,5 +1,5 @@
 # Particle Swarm Optimization for Pathfinding
-a student project from flipketzi (https://github.com/flipketzi) and Ocepris
+a student project by flipketzi (https://github.com/flipketzi) and Ocepris
 
 ## Introduction
 In this project we tried to solve pathfinding problems using Particle Swarm Optimization. 
