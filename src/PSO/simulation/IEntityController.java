@@ -1,7 +1,7 @@
 package PSO.simulation;
 
-import Evolution.updatable;
 import PSO.math.Vector2D;
+import PSO.misc.updatable;
 
 import java.util.List;
 

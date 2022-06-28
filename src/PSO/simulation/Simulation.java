@@ -3,9 +3,8 @@ package PSO.simulation;
 import AStar.AStarGrid;
 import AStar.AStarNode;
 import AStar.NodeState;
-import Evolution.Game;
-import IntersectionTester.PathOptimizer;
 import PSO.math.Vector2D;
+import PSO.misc.PathOptimizer;
 import PSO.visuals.*;
 
 import java.awt.event.KeyEvent;
@@ -95,24 +94,6 @@ public class Simulation implements KeyListener, Runnable
 
 	}
 
-	public void initEvo()
-	{
-		initMap();
-		Game game = new Game(envController);
-		entityController = game;
-		frame.add(game);
-		frame.getJFrame().addKeyListener(game);
-
-		StatsRenderer sr = new StatsRenderer(sc, (envController.getMap().getSizeX()*BLOCKSIZE) + 20);
-		EnvironmentController envController = new EnvironmentController(BLOCKSIZE);
-
-		rc.addRenderer(sr);
-		rc.addRenderer(game);
-		rc.setFrame(frame);
-		frame.setRenderController(rc);
-
-	}
-
 	public void clearSimulation()
 	{
 		EntityController.GLOBAL_BEST = null;
@@ -121,15 +102,7 @@ public class Simulation implements KeyListener, Runnable
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		if(e.getKeyChar() =='2')
-		{
-			running = false;
-			clearSimulation();
-			initEvo();
-			running = true;
-			diasableUpdate = true;
-		}
-		else if(e.getKeyChar() == '1')
+		if(e.getKeyChar() == '1')
 		{
 			running = false;
 			clearSimulation();

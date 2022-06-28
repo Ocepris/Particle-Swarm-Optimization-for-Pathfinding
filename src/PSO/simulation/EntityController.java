@@ -1,6 +1,6 @@
 package PSO.simulation;
 
-import IntersectionTester.PathOptimizer;
+import PSO.misc.PathOptimizer;
 import PSO.entities.Entity;
 import PSO.math.Vector2D;
 

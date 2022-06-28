@@ -1,4 +1,4 @@
-package IntersectionTester;
+package PSO.misc;
 
 import PSO.math.Vector2D;
 
@@ -13,13 +13,7 @@ public class PathOptimizer {
         for(int i = 0; i < path.size() -1; i++)
             for(int j = path.size() -1; j-1 > i+1; j--) {
 
-                Vector2D v1 = path.get(i);
-                Vector2D v2 = path.get(i + 1);
-                Vector2D v3 = path.get(j - 1);
-                Vector2D v4 = path.get(j);
-
-
-                Vector2D intersectionPoint = intersect(v1, v2, v3, v4);
+                Vector2D intersectionPoint = getIntersectingPoint(path, i, j);
                 if (intersectionPoint != null) {
                     ArrayList<Vector2D> newPath = new ArrayList<>();
                     for (int x = 0; x <= i; x++) {
@@ -37,22 +31,14 @@ public class PathOptimizer {
         return path;
     }
 
-    public List<Vector2D> getAllIntersection(List<Vector2D> path)
-    {
-        ArrayList<Vector2D> intersections = new ArrayList<>();
-        for(int i = 0; i < path.size() -1; i++)
-            for(int j = path.size() -1; j-1 > i+1; j--) {
-                Vector2D v1 = path.get(i);
-                Vector2D v2 = path.get(i + 1);
-                Vector2D v3 = path.get(j - 1);
-                Vector2D v4 = path.get(j);
-                Vector2D intersectionPoint = intersect(v1, v2, v3, v4);
-                if (intersectionPoint != null) {
-                    intersections.add(intersectionPoint);
-                }
-            }
+    private Vector2D getIntersectingPoint(List<Vector2D> path, int i, int j) {
+        Vector2D v1 = path.get(i);
+        Vector2D v2 = path.get(i + 1);
+        Vector2D v3 = path.get(j - 1);
+        Vector2D v4 = path.get(j);
 
-        return intersections;
+
+        return intersect(v1, v2, v3, v4);
     }
 
     public Vector2D intersect(Vector2D v1, Vector2D v2, Vector2D v3, Vector2D v4)
