@@ -54,7 +54,6 @@ public class PathOptimizer {
 
         double intersectX;
         double intersectY;
-        boolean isIntersecting = false;
 
         // Compute a1, b1, c1, where line joining points 1 and 2
         // is "a1 x + b1 y + c1 = 0".
@@ -69,7 +68,6 @@ public class PathOptimizer {
         // Check signs of r3 and r4. If both point 3 and point 4 lie on
         // same side of line 1, the line segments do not intersect.
         if ((r3!=0)&&(r4!=0)&&same_sign(r3, r4)) {
-            isIntersecting=false;
             return null;
         }
 
@@ -86,7 +84,6 @@ public class PathOptimizer {
         // on same side of second line segment, the line segments do
         // not intersect.
         if ((r1!=0)&&(r2!=0)&&(same_sign(r1, r2))) {
-            isIntersecting=false;
             return null;
         }
 
@@ -94,7 +91,6 @@ public class PathOptimizer {
         denom=(a1*b2)-(a2*b1);
 
         if (denom==0) {
-            isIntersecting=false;
             return null;
         }
 
@@ -123,7 +119,6 @@ public class PathOptimizer {
         }
 
         // lines_intersect
-        isIntersecting=true;
         return new Vector2D(intersectX,intersectY);
     }
 
