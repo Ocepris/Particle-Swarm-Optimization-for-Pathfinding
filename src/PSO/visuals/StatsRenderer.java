@@ -46,9 +46,10 @@ public class StatsRenderer implements Renderer {
     private void drawControls(Graphics g) {
         drawString(g, "");
         drawString(g, "Controls:");
-        drawString(g, "'Space' to start/pause Simulation");
+        drawString(g, "'Space' to start/pause simulation");
         drawString(g, "' R ' to reload");
         drawString(g, "' F ' to speed up / slow down");
+        drawString(g, "' L ' to load a different map");
         drawString(g, "");
         drawString(g, "' U ' to to draw unoptimized path");
         drawString(g, "' O ' to to draw optimized path");

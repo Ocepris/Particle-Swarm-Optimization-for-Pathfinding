@@ -7,6 +7,7 @@ import PSO.math.Vector2D;
 import PSO.misc.PathOptimizer;
 import PSO.visuals.*;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -20,24 +21,20 @@ public class Simulation implements KeyListener, Runnable {
     public final static int BLOCK_SIZE = 50;
     public static int FPS = 60;
     public static long maxLoopTime = 1000 / FPS;
-    public boolean running = true;
-    public boolean disableUpdates = true;
     public static boolean fastForward = false;
-
-    private IEntityController entityController;
-    private EnvironmentController envController;
-    private EnvironmentRenderer envRenderer;
     private final RenderController renderController;
     private final StatsContainer statsContainer = new StatsContainer("0.09", "");
     private final Logger logger;
-
+    public boolean running = true;
+    public boolean disableUpdates = true;
+    private IEntityController entityController;
+    private EnvironmentController envController;
+    private EnvironmentRenderer envRenderer;
     private int iteration = 0;
     private Frame simulationFrame;
+    private String mapPath = "res/maps/test_map.csv";
+    private String mapName = "test_map";
 
-
-    public static void main(String[] args) {
-        new Simulation();
-    }
 
     public Simulation() {
         renderController = new RenderController();
@@ -53,9 +50,13 @@ public class Simulation implements KeyListener, Runnable {
         simulationThread.start();
     }
 
+    public static void main(String[] args) {
+        new Simulation();
+    }
+
     public void initPSO() {
 
-        initMap();
+        initMapFromMapPath(mapPath);
 
         entityController = new EntityController(envController);
         EntityRenderer entityRenderer = new EntityRenderer(entityController);
@@ -72,9 +73,10 @@ public class Simulation implements KeyListener, Runnable {
 
     }
 
-    public void initMap() {
-        String mapPath = "res/test_map.csv";
-        statsContainer.setValue("map_name", mapPath);
+
+    private void initMapFromMapPath(String mapPath)
+    {
+        statsContainer.setValue("map_name", mapName);
         envController = new EnvironmentController(BLOCK_SIZE);
         envController.loadMapFromCSVFile(mapPath);
         envRenderer = new EnvironmentRenderer(envController);
@@ -88,36 +90,48 @@ public class Simulation implements KeyListener, Runnable {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == 'r')
+        switch (e.getKeyChar())
         {
-            restartSimulation();
+            case 'r' -> restartSimulation();
+            case 'o' -> drawOptimizedPathToGoal();
+            case 'u' -> drawPathToGoal();
+            case 'a' -> drawAStarPathToGoal();
+            case 'f' -> toggleSimulationSpeed();
+            case 'l' -> loadMap();
         }
-        else if (e.getKeyChar() == 'o')
-        {
-            drawOptimizedPathToGoal();
-        }
-        else if (e.getKeyChar() == 'u')
-        {
-            drawPathToGoal();
 
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_SPACE)
+        if (e.getKeyCode() == KeyEvent.VK_SPACE)
         {
             this.disableUpdates = !disableUpdates;
         }
-        else if (e.getKeyChar() == 'a')
-        {
-            drawAStarPathToGoal();
 
-        }
-        else if (e.getKeyChar() == 'f')
-        {
-            if (!fastForward)
-                speedUpSimulation();
-            else
-                slowDownSimulation();
+    }
+
+    private void loadMap()
+    {
+        selectMap();
+        renderController.clear();
+        restartSimulation();
+    }
+
+    private void selectMap() {
+        JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")+"/res/maps");
+        int returnValue = jfc.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            java.io.File selectedFile = jfc.getSelectedFile();
+            System.out.println("Selected file: " + selectedFile.getPath());
+            mapName = selectedFile.getName();
+            mapPath = selectedFile.getAbsolutePath();
         }
 
+    }
+
+    private void toggleSimulationSpeed() {
+        if (!fastForward)
+            speedUpSimulation();
+        else
+            slowDownSimulation();
     }
 
     private void restartSimulation() {
