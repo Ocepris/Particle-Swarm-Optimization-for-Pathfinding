@@ -21,6 +21,7 @@ public class RenderController {
     public void addRenderer(Renderer r){
         renderers.add(r);
     }
+    public void clear(){renderers.clear();}
     public void setFrame(Frame frame) {
         this.frame = frame;
     }
